@@ -44,7 +44,6 @@ namespace zk4500
 
         private async void Form1_Load(object sender, EventArgs e)
         {
-
             Controls.Add(ZkFprint);
             InitialAxZkfp();
 
@@ -55,7 +54,6 @@ namespace zk4500
                 {
                     btnVerify.Visible = false;
                     btnVerify.Enabled = false;
-                    //btnRegister.Enabled = false;
 
                     fetchPatientResponse = await serviceManager.PatientService.SQLFindAll();
                     gridData = fetchPatientResponse;
@@ -71,8 +69,6 @@ namespace zk4500
                     gridData = patientsForVerificationResponseList;
                     AppExtensions.PatientsForVerificationList = patientsForVerificationResponseList;
                 }
-
-
 
                 if (gridData.Count > 0)
                 {
@@ -95,7 +91,6 @@ namespace zk4500
         {
             try
             {
-
                 ZkFprint.OnImageReceived += zkFprint_OnImageReceived;
                 ZkFprint.OnFeatureInfo += zkFprint_OnFeatureInfo;
                 ZkFprint.OnEnroll += zkFprint_OnEnroll;
@@ -117,11 +112,20 @@ namespace zk4500
 
         public void UpdateGrid(IEnumerable<dynamic> fetchPatientResponse)
         {
-            BindingList<dynamic> bindingList = new BindingList<dynamic>(fetchPatientResponse.ToList());
-            registeredPatientsGridView.DataSource = bindingList;
-            registeredPatientsGridView.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
-            registeredPatientsGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            registeredPatientsGridView.CellMouseDown += DataGridViewCellMouseDownEventHandler;
+            try
+            {
+                BindingList<dynamic> bindingList = new BindingList<dynamic>(fetchPatientResponse.ToList());
+                registeredPatientsGridView.DataSource = bindingList;
+                registeredPatientsGridView.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
+                registeredPatientsGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+                registeredPatientsGridView.CellMouseDown += DataGridViewCellMouseDownEventHandler;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            
         }
 
         private void DataGridViewCellMouseDownEventHandler(object sender, DataGridViewCellMouseEventArgs e)
@@ -255,8 +259,6 @@ namespace zk4500
 
         private async void btnSearch_Click(object sender, EventArgs e)
         {
-            //IEnumerable<dynamic> gridData = new List<dynamic>();
-
             try
             {
                 if (comboBoxFilter.SelectedIndex == -1)
@@ -425,19 +427,27 @@ namespace zk4500
 
         private void zkFprint_OnFeatureInfo(object sender, IZKFPEngXEvents_OnFeatureInfoEvent e)
         {
-
             String strTemp = string.Empty;
-            if (ZkFprint.EnrollIndex != 1)
+            try
             {
-                if (ZkFprint.IsRegister)
+                if (ZkFprint.EnrollIndex != 1)
                 {
-                    if (ZkFprint.EnrollIndex - 1 > 0)
+                    if (ZkFprint.IsRegister)
                     {
-                        int eindex = ZkFprint.EnrollIndex - 1;
-                        strTemp = "Please scan again ..." + eindex;
+                        if (ZkFprint.EnrollIndex - 1 > 0)
+                        {
+                            int eindex = ZkFprint.EnrollIndex - 1;
+                            strTemp = "Please scan again ..." + eindex;
+                        }
                     }
                 }
             }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
             ShowHintInfo(strTemp);
         }
 
@@ -521,18 +531,27 @@ namespace zk4500
 
         private async Task RefreshGrid(dynamic param)
         {
-            IEnumerable<dynamic> newGridData = new List<dynamic>();
-            if (AppExtensions.DepartmentId == 1)
+            try
             {
-                newGridData = await FetchData();
+                IEnumerable<dynamic> newGridData = new List<dynamic>();
+                if (AppExtensions.DepartmentId == 1)
+                {
+                    newGridData = await FetchData();
+                }
+                else
+                {
+                    newGridData = await serviceManager.FingerPrintService.SQLFetchPatientsForVerification();
+                }
+
+                var gridData = newGridData.Where(r => r.Id != param);
+                UpdateGrid(gridData);
             }
-            else
+            catch (Exception)
             {
-                newGridData = await serviceManager.FingerPrintService.SQLFetchPatientsForVerification();
+
+                throw;
             }
             
-            var gridData = newGridData.Where(r => r.Id != param);
-            UpdateGrid(gridData);
         }
 
         private void ShowHintInfo(String s)
@@ -591,12 +610,23 @@ namespace zk4500
 
         private async void SaveToDB()
         {
-            await serviceManager.FingerPrintService.SQLCreate(registerFingerPrintRequest);
+            try
+            {
+                await serviceManager.FingerPrintService.SQLCreate(registerFingerPrintRequest);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            
         }
 
         private void btnExit_Click(object sender, EventArgs e)
         {
             Application.Exit();
         }
+
+
     }
 }

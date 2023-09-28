@@ -171,12 +171,6 @@
     <Compile Include="Forms\RegisteredPatients.Designer.cs">
       <DependentUpon>RegisteredPatients.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\SearchResultsForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\SearchResultsForm.Designer.cs">
-      <DependentUpon>SearchResultsForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Implementations\Interfaces\ServiceManager.cs" />
     <Compile Include="Implementations\Interfaces\UnitOfWork.cs" />
     <Compile Include="Implementations\Repositories\BaseRepository.cs" />
@@ -228,9 +222,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\RegisteredPatients.resx">
       <DependentUpon>RegisteredPatients.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\SearchResultsForm.resx">
-      <DependentUpon>SearchResultsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202309252156000_InitialCreate.resx">
       <DependentUpon>202309252156000_InitialCreate.cs</DependentUpon>
