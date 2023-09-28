@@ -50,7 +50,7 @@ namespace zk4500
             //DependencyResolver.SetResolver(new UnityDependencyResolver(container)); --- For
 
             // Resolve the Home form from the container, passing in the IServiceManager dependency
-            var mainForm = container.Resolve<Home>(new DependencyOverride<IServiceManager>(container.Resolve<ServiceManager>()));
+            //var mainForm = container.Resolve<Home>(new DependencyOverride<IServiceManager>(container.Resolve<ServiceManager>()));
 
             var registerFingerPrintRequest = new RegisterFingerPrintRequest();
 
