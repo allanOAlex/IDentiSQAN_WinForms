@@ -498,20 +498,18 @@ namespace zk4500
 
                 var selectedPatients = GetSelectedPatients();
                 var patientsToVerify = await serviceManager.FingerPrintService.SQLFindAll();
-                var patientToVerify = patientsToVerify.Where(p => p.Id == registerFingerPrintRequest.Id).FirstOrDefault() ?? new FetchFingerPrintResponse();
+                var patientToVerify = patientsToVerify.Where(p => p.PatientId == registerFingerPrintRequest.Id).FirstOrDefault() ?? new FetchFingerPrintResponse();
 
                 if (ZkFprint.VerFingerFromStr(ref template, patientToVerify.ImageTemplate, false, ref Check))
                 {
                     ShowHintInfo("Verified");
-
-                    AppExtensions.SelectedId = patientToVerify.Id;
+                    AppExtensions.SelectedId = patientToVerify.PatientId;
                     await RefreshGrid(AppExtensions.SelectedId);
                 }
 
                 else
                     ShowHintInfo("Not Verified");
-                    AppExtensions.SelectedId = patientToVerify.Id;
-                    await RefreshGrid(AppExtensions.SelectedId);
+                    
             }
             catch (Exception)
             {
