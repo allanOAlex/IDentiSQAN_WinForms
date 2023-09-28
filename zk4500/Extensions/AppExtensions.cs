@@ -10,6 +10,7 @@ namespace zk4500.Extensions
     public static class AppExtensions
     {
         public static int DepartmentId { get; set; } = 2;
+        public static int SelectedId { get; set; }
         public static List<FetchPatientForVerificationResponse> PatientsForVerificationList { get; set; }
 
 

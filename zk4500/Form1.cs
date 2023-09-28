@@ -30,6 +30,8 @@ namespace zk4500
         List<FetchPatientForVerificationRequest> patientsForVerificationRequestList = new List<FetchPatientForVerificationRequest>();
         List<FetchPatientForVerificationResponse> patientsForVerificationResponseList = new List<FetchPatientForVerificationResponse>();
 
+        IEnumerable<dynamic> gridData = new List<dynamic>();
+
         private bool Check;
 
         public Form1(IServiceManager ServiceManager, RegisterFingerPrintRequest RegisterFingerPrintRequest)
@@ -53,6 +55,7 @@ namespace zk4500
                 {
                     btnVerify.Visible = false;
                     btnVerify.Enabled = false;
+                    //btnRegister.Enabled = false;
 
                     fetchPatientResponse = await serviceManager.PatientService.SQLFindAll();
                     gridData = fetchPatientResponse;
@@ -95,15 +98,13 @@ namespace zk4500
 
                 ZkFprint.OnImageReceived += zkFprint_OnImageReceived;
                 ZkFprint.OnFeatureInfo += zkFprint_OnFeatureInfo;
-                //zkFprint.OnFingerTouching 
-                //zkFprint.OnFingerLeaving
                 ZkFprint.OnEnroll += zkFprint_OnEnroll;
 
                 if (ZkFprint.InitEngine() == 0)
                 {
                     ZkFprint.FPEngineVersion = "9";
                     ZkFprint.EnrollCount = 3;
-                    //deviceSerial.Text += " " + ZkFprint.SensorSN + " Count: " + ZkFprint.SensorCount.ToString() + " Index: " + ZkFprint.SensorIndex.ToString();
+                    
                     ShowHintInfo("Device successfully connected");
                 }
 
@@ -174,16 +175,6 @@ namespace zk4500
                         {
                             foreach (var item in selectedPatients)
                             {
-                                //registerFingerPrintRequest.Id = item.Id;
-                                //registerFingerPrintRequest.UserId = item.Id;
-                                //registerFingerPrintRequest.PatientId = item.Id;
-                                //registerFingerPrintRequest.FirstName = item.FirstName;
-                                //registerFingerPrintRequest.MiddleName = item.MiddleName;
-                                //registerFingerPrintRequest.LastName = item.LastName;
-                                //registerFingerPrintRequest.IPOPNumber = item.IPOPNumber;
-                                //registerFingerPrintRequest.IDNumber = item.IDNumber;
-                                //registerFingerPrintRequest.PhoneNumber = item.PhoneNumber;
-
                                 if (AppExtensions.HasProperty(item, "Id"))
                                     registerFingerPrintRequest.Id = item.Id;
                                 if (AppExtensions.HasProperty(item, "UserId"))
@@ -224,7 +215,26 @@ namespace zk4500
             return selectedPatients;
         }
 
-        public async Task<List<FetchPatientResponse>> FetchData(FetchPatientRequest fetchPatientRequest)
+        public async Task<List<FetchPatientResponse>> FetchData()
+        {
+            try
+            {
+                var response = await serviceManager.PatientService.SQLFindAll();
+                if (response.Count <= 0)
+                {
+                    return response;
+                }
+
+                return response;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public async Task<List<FetchPatientResponse>> FetchFilteredData(FetchPatientRequest fetchPatientRequest)
         {
             try
             {
@@ -245,7 +255,7 @@ namespace zk4500
 
         private async void btnSearch_Click(object sender, EventArgs e)
         {
-            IEnumerable<dynamic> gridData = new List<dynamic>();
+            //IEnumerable<dynamic> gridData = new List<dynamic>();
 
             try
             {
@@ -270,7 +280,7 @@ namespace zk4500
                         if (AppExtensions.DepartmentId == 1)
                         {
                             fetchPatientRequest.Id = int.Parse(searchValue);
-                            fetchPatientResponse = await FetchData(fetchPatientRequest);
+                            fetchPatientResponse = await FetchFilteredData(fetchPatientRequest);
                             gridData = fetchPatientResponse;
                         }
                         else
@@ -289,7 +299,7 @@ namespace zk4500
                         if (AppExtensions.DepartmentId == 1)
                         {
                             fetchPatientRequest.IPOPNumber = searchValue;
-                            fetchPatientResponse = await FetchData(fetchPatientRequest);
+                            fetchPatientResponse = await FetchFilteredData(fetchPatientRequest);
                             gridData = fetchPatientResponse;
                         }
                         else
@@ -308,7 +318,7 @@ namespace zk4500
                         if (AppExtensions.DepartmentId == 1)
                         {
                             fetchPatientRequest.FirstName = searchValue;
-                            fetchPatientResponse = await FetchData(fetchPatientRequest);
+                            fetchPatientResponse = await FetchFilteredData(fetchPatientRequest);
                             gridData = fetchPatientResponse;
                         }
                         else
@@ -327,7 +337,7 @@ namespace zk4500
                         if (AppExtensions.DepartmentId == 1)
                         {
                             fetchPatientRequest.MiddleName = searchValue;
-                            fetchPatientResponse = await FetchData(fetchPatientRequest);
+                            fetchPatientResponse = await FetchFilteredData(fetchPatientRequest);
                             gridData = fetchPatientResponse;
                         }
                         else
@@ -346,7 +356,7 @@ namespace zk4500
                         if (AppExtensions.DepartmentId == 1)
                         {
                             fetchPatientRequest.LastName = searchValue;
-                            fetchPatientResponse = await FetchData(fetchPatientRequest);
+                            fetchPatientResponse = await FetchFilteredData(fetchPatientRequest);
                             gridData = fetchPatientResponse;
                         }
                         else
@@ -365,7 +375,7 @@ namespace zk4500
                         if (AppExtensions.DepartmentId == 1)
                         {
                             fetchPatientRequest.IDNumber = searchValue;
-                            fetchPatientResponse = await FetchData(fetchPatientRequest);
+                            fetchPatientResponse = await FetchFilteredData(fetchPatientRequest);
                             gridData = fetchPatientResponse;
                         }
                         else
@@ -438,33 +448,36 @@ namespace zk4500
                 if (e.actionResult)
                 {
                     string template = ZkFprint.EncodeTemplate1(e.aTemplate);
-                    //txtTemplate.Text = template;
-                    ShowHintInfo("Registration successful");
-
+                    
                     try
                     {
                         registerFingerPrintRequest.Image = template;
                         registerFingerPrintRequest.ImageType = "bmp";
+                        SaveToDB();
 
-                        var savedToDB = await serviceManager.FingerPrintService.SQLCreate(registerFingerPrintRequest);
                     }
                     catch (Exception err)
                     {
-                        MessageBox.Show(err.ToString());
+                        MessageBox.Show(err.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
 
                     btnRegister.Enabled = false;
                     btnVerify.Enabled = true;
-
+                    searchRichTextBox.Text = string.Empty;
+                    
+                    ShowHintInfo("Registration successful");
                     MessageBox.Show("Registration successful.", "Success!", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     btnClear_Click(sender, new EventArgs());
-                    //Application.Exit();
 
-                    
-                    //this.Hide();
+                    AppExtensions.SelectedId = registerFingerPrintRequest.Id;
+                    await RefreshGrid(AppExtensions.SelectedId);
+
+
+
                 }
                 else
                 {
+                    MessageBox.Show("Error, please register again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     ShowHintInfo("Error, please register again.");
 
                 }
@@ -491,12 +504,14 @@ namespace zk4500
                 {
                     ShowHintInfo("Verified");
 
-                    //RefreshGrid
-                    var gridData = patientsForVerificationRequestList.Where(p => p.Id != patientToVerify.Id);
+                    AppExtensions.SelectedId = patientToVerify.Id;
+                    await RefreshGrid(AppExtensions.SelectedId);
                 }
-                    
+
                 else
                     ShowHintInfo("Not Verified");
+                    AppExtensions.SelectedId = patientToVerify.Id;
+                    await RefreshGrid(AppExtensions.SelectedId);
             }
             catch (Exception)
             {
@@ -504,6 +519,22 @@ namespace zk4500
                 throw;
             }
 
+        }
+
+        private async Task RefreshGrid(dynamic param)
+        {
+            IEnumerable<dynamic> newGridData = new List<dynamic>();
+            if (AppExtensions.DepartmentId == 1)
+            {
+                newGridData = await FetchData();
+            }
+            else
+            {
+                newGridData = await serviceManager.FingerPrintService.SQLFetchPatientsForVerification();
+            }
+            
+            var gridData = newGridData.Where(r => r.Id != param);
+            UpdateGrid(gridData);
         }
 
         private void ShowHintInfo(String s)
@@ -535,6 +566,8 @@ namespace zk4500
         {
             try
             {
+                var selectedPatient = GetSelectedPatients();
+
                 ZkFprint.CancelEnroll();
                 ZkFprint.EnrollCount = 3;
                 ZkFprint.BeginEnroll();
@@ -558,9 +591,9 @@ namespace zk4500
 
         }
 
-        private void SaveToDB(object sender, EventArgs e)
+        private async void SaveToDB()
         {
-            
+            await serviceManager.FingerPrintService.SQLCreate(registerFingerPrintRequest);
         }
 
         private void btnExit_Click(object sender, EventArgs e)

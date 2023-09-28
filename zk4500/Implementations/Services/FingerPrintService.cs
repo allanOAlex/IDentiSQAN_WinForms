@@ -50,9 +50,9 @@ namespace zk4500.Implementations.Services
             {
                 FingerPrint fingerPrint = new FingerPrint
                 {
-                    PatientId = registerFingerPrintRequest.PatientId,
+                    PatientId = registerFingerPrintRequest.Id,
                     ImageTemplate = registerFingerPrintRequest.Image,
-                    IsActive = registerFingerPrintRequest.IsActive
+                    IsActive = true
                 };
 
 
