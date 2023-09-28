@@ -34,7 +34,6 @@ namespace zk4500
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-
             var container = new UnityContainer();
             container.RegisterType<IConfigurationService, ConfigurationService>(new ContainerControlledLifetimeManager());
             container.RegisterType<IServiceManager, ServiceManager>(new ContainerControlledLifetimeManager());
@@ -47,17 +46,10 @@ namespace zk4500
 
             container.RegisterType<IDbConnection>(new InjectionFactory(c => new DapperContext(c.Resolve<IConfigurationService>()).CreateConnection()));
 
-            //DependencyResolver.SetResolver(new UnityDependencyResolver(container)); --- For
-
-            // Resolve the Home form from the container, passing in the IServiceManager dependency
-            //var mainForm = container.Resolve<Home>(new DependencyOverride<IServiceManager>(container.Resolve<ServiceManager>()));
-
             var registerFingerPrintRequest = new RegisterFingerPrintRequest();
 
             // Resolve the Form1 instance with dependencies
             var form = container.Resolve<Form1>(new DependencyOverride<RegisterFingerPrintRequest>(registerFingerPrintRequest));
-
-            container.BuildUp(mainForm);
 
             Application.Run(form);
         }
