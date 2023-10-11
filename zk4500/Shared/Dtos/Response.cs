@@ -33,6 +33,6 @@ namespace zk4500.Shared.Dtos
         public string ImageTemplate { get; set; }
 
         public int IsActive { get; set; }
-
+        
     }
 }

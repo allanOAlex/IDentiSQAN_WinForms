@@ -40,6 +40,11 @@ namespace zk4500.Implementations.Services
             throw new NotImplementedException();
         }
 
+        public void InitializeFingerprintEngine()
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<RegisterFingerPrintResponse> SQLCreate(RegisterFingerPrintRequest registerFingerPrintRequest)
         {
             try
@@ -70,6 +75,49 @@ namespace zk4500.Implementations.Services
 
                 throw;
             }
+        }
+
+        public async Task<List<FetchPatientForVerificationResponse>> SQLFetchPatientsForVerification()
+        {
+            try
+            {
+                var patientList = new List<FetchPatientForVerificationResponse>();
+                var response = await unitOfWork.PatientRepository.SQLFetchPatientsForVerification();
+                if (response.Any())
+                {
+                    foreach (var item in response)
+                    {
+                        var listItem = new FetchPatientForVerificationResponse
+                        {
+                            Id = item.Id,
+                            CheckInID = item.PatientId,
+                            Title = item.Title,
+                            FirstName = item.FirstName,
+                            MiddleName = item.MiddleName,
+                            LastName = item.LastName,
+                            IPOPNumber = item.IPOPNumber,
+                            PhoneNumber = item.PhoneNumber,
+                            ServicePointId = item.ServicePointId,
+                            IsFingerVerified = item.IsFingerVerified
+
+
+
+                        };
+
+                        patientList.Add(listItem);
+                    }
+
+                    return patientList;
+                }
+
+                return patientList;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            
         }
 
         public async Task<List<FetchFingerPrintResponse>> SQLFindAll()

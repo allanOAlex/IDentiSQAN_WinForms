@@ -61,7 +61,9 @@ namespace zk4500
 
             Application.Run(main);
 
+            container.BuildUp(mainForm);
 
+            Application.Run(form);
         }
     }
 }

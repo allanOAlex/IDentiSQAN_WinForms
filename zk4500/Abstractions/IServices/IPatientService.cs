@@ -15,7 +15,7 @@ namespace zk4500.Abstractions.IServices
         Task<ApiResponse<FetchPatientResponse>> SQLFindByCondition(FetchPatientRequest fetchPatientRequest);
         Task<List<FetchPatientForVerificationResponse>> SQLFetchPatientsForVerification();
         Task<UpdateVerifiedResponse> SQLUpdateVerified(UpdateVerifiedRequest updateVerifiedRequest);
-        Task<UpdatePatientResponse> Update(UpdatePatientRequest updatePatientRquest); 
+        Task<UpdatePatientResponse> Update(UpdatePatientRequest updatePatientRquest);
 
 
     }

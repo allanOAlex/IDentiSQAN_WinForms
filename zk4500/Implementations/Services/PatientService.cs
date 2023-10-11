@@ -174,6 +174,8 @@ namespace zk4500.Implementations.Services
                             IDNumber = item.IDNumber,
                             PhoneNumber = item.PhoneNumber,
 
+
+
                         };
 
                         patientList.Add(listItem);
@@ -222,21 +224,21 @@ namespace zk4500.Implementations.Services
 
                 try
                 {
-                    if (patientsToFind.Any())
-                    {
+                if (patientsToFind.Any())
+                {
                         if (patientsToFind.Count() > 1)
                         {
-                            foreach (var item in patientsToFind)
-                            {
+                    foreach (var item in patientsToFind)
+                    {
                                 patient = new FetchPatientResponse
-                                {
+                        {
                                     Title = item.Title,
-                                    Id = item.Id,
-                                    FirstName = item.FirstName,
-                                    MiddleName = item.MiddleName,
-                                    LastName = item.LastName,
-                                    IPOPNumber = item.IPOPNumber,
-                                    IDNumber = item.IDNumber,
+                            Id = item.Id,
+                            FirstName = item.FirstName,
+                            MiddleName = item.MiddleName,
+                            LastName = item.LastName,
+                            IPOPNumber = item.IPOPNumber,
+                            IDNumber = item.IDNumber,
                                     PhoneNumber = item.PhoneNumber,
                                     ImageTemplate = item.FingerData
                                 };
@@ -257,27 +259,27 @@ namespace zk4500.Implementations.Services
                                 IDNumber = patientsToFind.FirstOrDefault().IDNumber,
                                 PhoneNumber = patientsToFind.FirstOrDefault().PhoneNumber,
                                 ImageTemplate = patientsToFind.FirstOrDefault().FingerData
-                            };
+                        };
 
                             patienstList.Add(patient);
-                        }
-
-                        
-
-                        
-
-                        if (patienstList.Count > 1)
-                            return new ApiResponse<FetchPatientResponse> { Successful = true, Message = "", Datas = patienstList };
-
-                        return new ApiResponse<FetchPatientResponse> { Successful = true, Message = "", Datas = patienstList };
                     }
+
+                        
+
+                        
+
+                    if (patienstList.Count > 1)
+                        return new ApiResponse<FetchPatientResponse> { Successful = true, Message = "", Datas = patienstList };
+
+                    return new ApiResponse<FetchPatientResponse> { Successful = true, Message = "", Datas = patienstList };
+                }
                 }
                 catch (Exception ex)
                 {
 
                     throw;
                 }
-                
+
 
                 return new ApiResponse<FetchPatientResponse> { Successful = false, Message = "No records found", Data = new FetchPatientResponse() };
             }
@@ -360,7 +362,7 @@ namespace zk4500.Implementations.Services
                 }
 
                 return patientList;
-            }
+        }
             catch (Exception)
             {
 

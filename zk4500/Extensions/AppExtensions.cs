@@ -147,7 +147,7 @@ namespace zk4500.Extensions
             foreach (Form form in formsToClose)
             {
                 form.Close();
-            }
+        }
 
             // Finally, show the Main form
             Main mainForm = new Main(serviceManager, authApiClient);
