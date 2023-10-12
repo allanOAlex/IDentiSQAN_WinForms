@@ -4,11 +4,9 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using AxZKFPEngXControl;
-using Org.BouncyCastle.Asn1.Ocsp;
 using zk4500.Abstractions.Interfaces;
 using zk4500.ApiClient;
 using zk4500.Exceptions;
@@ -26,6 +24,7 @@ namespace zk4500
         private AxZKFPEngX ZkFprint = new AxZKFPEngX();
         private readonly IServiceManager serviceManager;
         private readonly IAuthApiClient authApiClient;
+        //private readonly BrowserManager browserManager;
 
         RegisterFingerPrintRequest registerFingerPrintRequest = new RegisterFingerPrintRequest();
         RegisterFingerPrintResponse registerFingerPrintResponse = new RegisterFingerPrintResponse();
@@ -106,8 +105,8 @@ namespace zk4500
                     btnVerify.Visible = false;
                     btnVerify.Enabled = false;
 
-                    fetchPatientResponse = await serviceManager.PatientService.SQLFindAll();
-                    gridData = fetchPatientResponse;
+                    fetchPatientsResponse = await serviceManager.PatientService.SQLFindAll();
+                    gridData = fetchPatientsResponse;
 
                     fetchPatientsResponse = await serviceManager.PatientService.SQLFindAll();
                     fetchUsersResponse = await serviceManager.UserService.SQLFindAll();
@@ -124,7 +123,7 @@ namespace zk4500
 
                         default:
                             break;
-                }
+                    }
                     
                 }
                 else
@@ -139,20 +138,12 @@ namespace zk4500
 
                     AppExtensions.CaptureAction = 2;
 
-                    //btnVerify.Visible = true;
-                    //btnVerify.Enabled = true;
-
-                    //btnRegister.Visible = false;
-                    //btnRegister.Enabled = false;
-
                     patientsForVerificationResponseList = await serviceManager.PatientService.SQLFetchPatientsForVerification();
 
                     gridData = patientsForVerificationResponseList;
 
                     AppExtensions.PatientsForVerificationList = patientsForVerificationResponseList;
                 }
-
-
 
                 if (gridData.Count > 0)
                 {
@@ -207,7 +198,7 @@ namespace zk4500
                 }
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
                 throw;
@@ -252,7 +243,7 @@ namespace zk4500
                 ZkFprint.PrintImageAt(dc, 0, 0, bmp.Width, bmp.Height);
                 g.Dispose();
                 fpicture.Image = bmp;
-        }
+            }
             catch (Exception)
             {
 
@@ -274,10 +265,10 @@ namespace zk4500
                         {
                             int eindex = ZkFprint.EnrollIndex - 1;
                             strTemp = "Please scan again ..." + eindex;
-                            }
                         }
                     }
                 }
+                
             }
             catch (Exception)
             {
@@ -296,8 +287,8 @@ namespace zk4500
                 {
                     string template = ZkFprint.EncodeTemplate1(e.aTemplate);
 
-            try
-            {
+                    try
+                    {
                         registerFingerPrintRequest.Id = AppExtensions.PatientId;
                         registerFingerPrintRequest.Image = template;
                         registerFingerPrintRequest.ImageType = "bmp";
@@ -306,9 +297,9 @@ namespace zk4500
 
                     }
                     catch (Exception ex)
-                {
-                    // Get the corresponding FetchPatientResponse object from the data source.
-                    dynamic patient = (dynamic)row.DataBoundItem;
+                    {
+                        // Get the corresponding FetchPatientResponse object from the data source.
+                        //dynamic patient = (dynamic)row.DataBoundItem;
 
                         var exType = ex.GetType();
                         if (exType.Name == nameof(CreatingDuplicateException))
@@ -335,7 +326,7 @@ namespace zk4500
 
                 }
                 else
-                    {
+                {
                     MessageBox.Show("Error, please register again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     ShowHintInfo("Error, please register again.");
                     btnClear_Click(new object(), new EventArgs());
@@ -343,7 +334,7 @@ namespace zk4500
                 }
             }
             catch (Exception)
-                        {
+            {
 
                 throw;
             }
@@ -368,12 +359,12 @@ namespace zk4500
 
                 var selectedPatients = GetSelectedPatients();
                 if (selectedPatients.Count > 1)
-                            foreach (var item in selectedPatients)
-                            {
+                   foreach (var item in selectedPatients)
+                   {
                         var patientsToVerify = item;
                         labelMessage.Visible = true;
                         ShowCustomMessage($"Verifying fingerprint for {item.FirstName} {item.MiddleName} {item.LastName} - IP/OP Number : {item.IPOPNumber}");
-                    }
+                   }
                 else
                 {
                     patientToVerify = selectedPatients.FirstOrDefault();
@@ -398,19 +389,19 @@ namespace zk4500
                         ShowCustomMessage(string.Empty);
                         fpicture.Image = null;
                         btnVerify.Enabled = false;
-                            }
+                }
 
                 else
                     ShowHintInfo("Not Verified");
                     
                         }
-            catch (Exception ex)
+            catch (Exception)
             {
 
                 throw;
-                    }
+            }
 
-                }
+        }
 
         private async void btnRegister_Click(object sender, EventArgs e)
         {
@@ -422,7 +413,7 @@ namespace zk4500
                 if (registeredPatientsGridView.SelectedRows.Count == 0)
                 {
                     MessageBox.Show("Please select a patient to proceed.", "No Item Selected.", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
+                }
                 else
                 {
                     ZkFprint.CancelEnroll();
@@ -438,7 +429,7 @@ namespace zk4500
                 throw;
             }
 
-            return selectedPatients;
+            //return selectedPatients;
         }
 
         private async void btnVerify_Click(object sender, EventArgs e)
@@ -458,7 +449,8 @@ namespace zk4500
                     if (ZkFprint.IsRegister)
                     {
                         ZkFprint.CancelEnroll();
-            }
+                    }
+
                     ZkFprint.OnCapture += zkFprint_OnCapture;
                     ZkFprint.BeginCapture();
                     ShowHintInfo("Please give fingerprint sample.");
@@ -510,9 +502,9 @@ namespace zk4500
 
                 try
                 {
-                switch (selectedFilter)
-                {
-                    case "Patient ID":
+                    switch (selectedFilter)
+                    {
+                        case "Patient ID":
                             fetchPatientRequest.Id = int.Parse(searchValue); break;
 
                         case "IP/OP Number":
@@ -546,7 +538,7 @@ namespace zk4500
                     }
 
                     switch (AppExtensions.IsPatient)
-                        {
+                    {
                         case true:
                             fetchPatientsResponse = await FetchFilteredPatients(fetchPatientRequest) ?? new List<FetchPatientResponse>();
 
@@ -569,19 +561,19 @@ namespace zk4500
 
                         default:
                             break;
-                        }
+                    }
 
                     
                 }
                 catch (Exception ex)
-                        {
+                {
                     MessageBox.Show($"Switch error : {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     throw;
-                        }
+                }
 
                 if (fetchPatientsResponse.Count <= 0 || fetchUsersResponse.Count <= 0)
-                            MessageBox.Show("No records found.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        else
+                    MessageBox.Show("No records found.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                else
                 {
                     switch (AppExtensions.IsPatient)
                     {
@@ -595,14 +587,15 @@ namespace zk4500
 
                         default:
                             break;
-                        }
+                    }
                     
-                        }
+                }
 
-                        if (gridData.Count() <= 0)
-                            MessageBox.Show("No records found.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        else
-                            UpdateGrid(gridData);
+                if (gridData.Count() <= 0)
+                    MessageBox.Show("No records found.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                else
+                    UpdateGrid(gridData);
+
                 DisplayActionMessages();
 
             }
@@ -622,10 +615,10 @@ namespace zk4500
             await PopulateGrid();
             AppExtensions.GridRefreshed = 1;
 
-                        }
+        }
 
         public void UpdateGrid(IEnumerable<dynamic> fetchPatientResponse)
-                        {
+        {
             try
             {
                 BindingList<dynamic> bindingList = new BindingList<dynamic>(fetchPatientResponse.ToList());
@@ -643,7 +636,7 @@ namespace zk4500
                 registeredPatientsGridView.CellMouseDown += DataGridViewCellMouseDownEventHandler;
                 
                 AppExtensions.ManageGridColumns(registeredPatientsGridView);
-                        }
+            }
             catch (Exception)
             {
 
@@ -652,7 +645,7 @@ namespace zk4500
 
         }
 
-        private async void DataGridViewCellMouseDownEventHandler(object sender, DataGridViewCellMouseEventArgs e)
+        private void DataGridViewCellMouseDownEventHandler(object sender, DataGridViewCellMouseEventArgs e)
         {
             btnRegister.Enabled = true;
             btnVerify.Enabled = true;
@@ -678,9 +671,9 @@ namespace zk4500
                         {
                         ShowHintInfo($"Capturing multiple fingerprints is not allowed. Please select one item");
                         return;
-                        }
-                        else
-                        {
+                    }
+                    else
+                    {
                         var selectedPateint = selectedPatients.FirstOrDefault();
                         labelMessage.Visible = true;
                         labelMessage.Text = string.Empty;
@@ -692,7 +685,7 @@ namespace zk4500
                     }
                 }
 
-                        }
+            }
             catch (Exception)
             {
 
@@ -700,35 +693,6 @@ namespace zk4500
             }
 
         }
-
-        private async Task<bool> CheckDeviceConnection()
-        {
-            try
-            {
-                if (AppExtensions.DeviceConnected != 1)
-                        {
-                    btnRegister.Enabled = false;
-                    btnVerify.Enabled = false;
-                    ShowHintInfo("Please confirm device connection. \nClose the application, connect device, then start the application.");
-                    
-                    return false;
-                    
-                        }
-                        else
-                        {
-                    btnRegister.Enabled= true;
-                }
-
-
-                return true;
-
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-                        }
 
         private void btnInitializeDevice_Click(object sender, EventArgs e)
         {
@@ -752,18 +716,18 @@ namespace zk4500
             {
                 var response = await serviceManager.PatientService.SQLFindAll();
                 if (response.Count <= 0)
-                        {
+                {
                     return response;
                 }
 
                 return response;
                         }
             catch (Exception)
-                        {
+            {
 
                 throw;
             }
-                        }
+        }
 
         public async Task<List<FetchUserResponse>> FetchUserData() 
         {
@@ -841,12 +805,12 @@ namespace zk4500
                 if (!response.Successful == true)
                 {
                     return response.Datas;
-        }
+                }
 
                 return response.Datas;
             }
             catch (Exception)
-        {
+            {
 
                 throw;
             }
@@ -858,9 +822,9 @@ namespace zk4500
             {
                 var selectedPatients = GetSelectedPatients();
                 if (selectedPatients.Any())
-            {
-                    if (selectedPatients.Count == 1)
                 {
+                    if (selectedPatients.Count == 1)
+                    {
                         labelMessage.Visible = true;
                         labelMessage.Text = string.Empty;
                         ShowActionMessage(selectedPatients[0]);
@@ -869,14 +833,14 @@ namespace zk4500
                     {
                         ShowForbiddenActionMessage();
                     }
-                    }
                 }
+            }
             catch (Exception ex)
             {
                 MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 throw;
             }
-            ShowHintInfo(strTemp);
+            //ShowHintInfo(strTemp);
         }
 
         private List<dynamic> GetSelectedPatients()
@@ -924,7 +888,7 @@ namespace zk4500
                 }
             }
             catch (Exception ex)
-                {
+            {
                 MessageBox.Show($"An error occurred: {nameof(GetSelectedPatients)} - {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 throw;
             }
@@ -934,8 +898,8 @@ namespace zk4500
 
         private void ShowActionMessage(dynamic item)
         {
-                    try
-                    {
+            try
+            {
                 string numberText = $"- IP/OP Number : {item.IPOPNumber}";
                 switch (AppExtensions.IsPatient)
                 {
@@ -945,10 +909,10 @@ namespace zk4500
 
                     default:
                         break;
-                    }
+                }
 
                 switch (AppExtensions.CaptureAction)
-                    {
+                {
 
                     case 1:
                         ShowCustomMessage($"Capture fingerprint for {item.FirstName} {item.MiddleName} {item.LastName} {numberText}");
@@ -961,7 +925,7 @@ namespace zk4500
                         ShowHintInfo(string.Empty);
                         break;
                 }
-                    }
+            }
             catch (Exception)
             {
 
@@ -983,9 +947,9 @@ namespace zk4500
                         ShowHintInfo($"Verifying multiple fingerprints is not allowed. Please select one item");
                         break;
                 }
-                }
+            }
             catch (Exception)
-                {
+            {
 
                 throw;
             }
@@ -1071,7 +1035,7 @@ namespace zk4500
             {
                 await RefreshGrid(param);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 MessageBox.Show($"Could not refresh grid at the moment. \nPlease contact system admin. ", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -1094,7 +1058,7 @@ namespace zk4500
                 if (AppExtensions.DepartmentId == 14)
                 {
                     switch (AppExtensions.IsPatient)
-                {
+                    {
                         case false:
                             newGridData = await FetchUserData();
                             break; 
@@ -1105,7 +1069,7 @@ namespace zk4500
 
                         default:
                             break;
-                }
+                    }
                     
                     //newGridData = await FetchData();
                     
@@ -1159,8 +1123,8 @@ namespace zk4500
                 main.Show();
                 
             }
-            catch (Exception ex)
-        {
+            catch (Exception)
+            {
 
                 throw;
             }
@@ -1179,12 +1143,12 @@ namespace zk4500
                 label1.Text = "Users";
                 await PopulateGrid();
             }
-            catch (Exception ex)
-                {
+            catch (Exception)
+            {
 
                 throw;
             }
-                }
+        }
 
         private async void patientFingerprintToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1211,11 +1175,14 @@ namespace zk4500
             try
             {
                 Login login = new Login(serviceManager, authApiClient, browserManager);
-                login.ShowDialog();
-                Enabled = false;
                 Hide();
+                WindowState = FormWindowState.Minimized;
+                Enabled = false;
+                login.ShowDialog();
+                
+                
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
                 throw;
@@ -1248,8 +1215,8 @@ namespace zk4500
                     }
                 }
             }
-            catch (Exception ex)
-        {
+            catch (Exception)
+            {
 
                 throw;
             }
@@ -1270,13 +1237,13 @@ namespace zk4500
                     foreach (string filter in filterParams)
                     {
                         if (control.Name.ToLower().Contains(filter.ToLower()))
-        {
+                        {
                             control.Visible = true;
             
                             break;
                         }
                     }
-        }
+                }
 
                 labelMessage.Visible = false;
                 if (AppExtensions.DepartmentId != 14)
@@ -1285,12 +1252,41 @@ namespace zk4500
                     btnRegister.Visible = false;
                 }
             }
-            catch (Exception ex)
-        {
+            catch (Exception)
+            {
 
                 throw;
             }
         }
+
+        private async Task<bool> CheckDeviceConnection()
+        {
+            try
+            {
+                if (AppExtensions.DeviceConnected != 1)
+                {
+                    btnRegister.Enabled = false;
+                    btnVerify.Enabled = false;
+                    ShowHintInfo("Please confirm device connection. \nClose the application, connect device, then start the application.");
+
+                    return false;
+
+                }
+                else
+                {
+                    btnRegister.Enabled = true;
+                }
+
+                return true;
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
 
 
     }

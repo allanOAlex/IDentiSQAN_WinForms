@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -160,6 +159,9 @@ namespace zk4500.Implementations.Services
 
                     ).DefaultIfEmpty();
 
+                usersToFind = users.Where(p =>
+                    p.Username.IndexOf(fetchUserRequest.Username, StringComparison.OrdinalIgnoreCase) >= 0).DefaultIfEmpty();
+
                 if (usersToFind.Any())
                 {
                     if (usersToFind.Count() > 1)
@@ -247,7 +249,7 @@ namespace zk4500.Implementations.Services
 
                 };
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }

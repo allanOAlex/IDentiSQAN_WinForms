@@ -120,7 +120,7 @@ namespace zk4500.Forms
             ShowHintInfo(strTemp);
         }
 
-        private async void OnEnroll(object sender, IZKFPEngXEvents_OnEnrollEvent e)
+        private void OnEnroll(object sender, IZKFPEngXEvents_OnEnrollEvent e)
         {
             try
             {
@@ -190,8 +190,14 @@ namespace zk4500.Forms
                     try
                     {
                         ShowHintInfo("Please wait while we validate your credentials ..");
+                        await Task.Delay(2000);
+                        Hide();
+                        WindowState = FormWindowState.Minimized;
+                        Enabled = false;
 
                         await browserManager.LoginUser(userToVerify);
+                        //WindowState = FormWindowState.Minimized;
+                        Close();
 
                         //InvokeHMIS(userToVerify);
 
@@ -209,30 +215,6 @@ namespace zk4500.Forms
                         //    ShowHintInfo("Authentication Successful !!");
 
                         //}
-
-                        //ShowHintInfo("Please wait while we validate your credentials ..");
-                        //var browserTask = Task.Run(async () =>
-                        //{
-                        //    // Call the InvokeHMIS method to launch the browser
-                        //    var success = await InvokeHMIS(AppExtensions.LoginRequest);
-
-                        //    // Update the UI on the UI thread
-                        //    BeginInvoke((Action)(() =>
-                        //    {
-                        //        if (!success)
-                        //        {
-                        //            ShowHintInfo("User Authentication failed. \nPlease check your login details");
-                        //            MessageBox.Show("Failed");
-                        //        }
-                        //        else
-                        //        {
-                        //            MessageBox.Show("Success");
-                        //            fingerBox.Image = null;
-                        //            buttonLogin.Enabled = false;
-                        //            ShowHintInfo(string.Empty);
-                        //        }
-                        //    }));
-                        //});
 
                         //ShowHintInfo("Please wait while we validate your credentials ..");
                         //if (NotifyVerified(userToVerify).Result.Successful != true)
@@ -263,7 +245,7 @@ namespace zk4500.Forms
                     ShowHintInfo("Not Verified");
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
                 throw;
@@ -293,13 +275,6 @@ namespace zk4500.Forms
 
                 if (!Regex.IsMatch(textBoxUsername.Text, usernamePattern))
                 {
-                    //MessageBox.Show($"Username must meet the following: " +
-                    //    $"\n.Must be at least 3 characters " +
-                    //    $"\n.Must not start with an underscore " +
-                    //    $"\n.Must not start with an number " +
-                    //    $"\n.Must not contain special characters " +
-                    //    $"\n.Must not contain whitespaces", "Invalid Input", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-
                     string errorMessage = "Username must meet the following:";
                     string caption = string.Empty;
                     stringBuilder.AppendLine(errorMessage);
@@ -334,8 +309,6 @@ namespace zk4500.Forms
                         caption += ". Must not contain whitespaces";
                         errorMessage += $"\n{caption}";
                     }
-
-                    //MessageBox.Show(stringBuilder.ToString(), "Invalid Input", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
                     CustomDialog customDialog = new CustomDialog("Username must meet the following:", caption);
                     customDialog.Text = "Invalid Input";
@@ -393,38 +366,9 @@ namespace zk4500.Forms
                     AppExtensions.LoginRequest = loginRequest;
 
                     
-                    PromptForFingerPrint(loginRequest);
+                    PromptForFingerPrint();
 
                 }
-
-            }
-            catch (Exception ex)
-            {
-
-                throw;
-            }
-
-        }
-
-        private async Task<bool> CheckDeviceConnection()
-        {
-            try
-            {
-                if (AppExtensions.DeviceConnected != 1)
-                {
-                    buttonLogin.Enabled = false;
-                    ShowHintInfo("Please confirm device connection. \nClose the application, connect device, then start the application.");
-
-                    return false;
-
-                }
-                else
-                {
-                    buttonLogin.Enabled = true;
-                }
-
-
-                return true;
 
             }
             catch (Exception)
@@ -432,9 +376,10 @@ namespace zk4500.Forms
 
                 throw;
             }
+
         }
 
-        private async void PromptForFingerPrint(LoginRequest loginRequest)
+        private async void PromptForFingerPrint()
         {
             try
             {
@@ -457,9 +402,18 @@ namespace zk4500.Forms
 
         }
 
-        private void ShowHintInfo(String info)
+        public async void InvokeHMIS(LoginRequest loginRequest)
         {
-            labelPromt.Text = info;
+            try
+            {
+                await authApiClient.InvokeHMIS(loginRequest);
+                ShowHintInfo($"Authentication successful.");
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         public async Task<ApiResponse<bool>> NotifyVerified(LoginRequest loginRequest)
@@ -475,21 +429,7 @@ namespace zk4500.Forms
 
                 return response;
             }
-            catch (Exception ex) 
-            {
-
-                throw;
-            }
-        }
-
-        public async void InvokeHMIS(LoginRequest loginRequest)
-        {
-            try
-            {
-                await authApiClient.InvokeHMIS(loginRequest);
-                ShowHintInfo($"Authentication successful.");
-            }
-            catch (Exception ex)
+            catch (Exception) 
             {
 
                 throw;
@@ -519,12 +459,46 @@ namespace zk4500.Forms
                 form1.Show();
                 Close();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 
                 throw;
             }
         }
+
+        private void ShowHintInfo(String info)
+        {
+            labelPromt.Text = info;
+        }
+
+        private async Task<bool> CheckDeviceConnection()
+        {
+            try
+            {
+                if (AppExtensions.DeviceConnected != 1)
+                {
+
+                    buttonLogin.Enabled = false;
+                    ShowHintInfo("Please confirm device connection. \nClose the application, connect device, then start the application.");
+
+                    return false;
+
+                }
+                else
+                {
+                    buttonLogin.Enabled = true;
+                }
+
+                return true;
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
 
 
 

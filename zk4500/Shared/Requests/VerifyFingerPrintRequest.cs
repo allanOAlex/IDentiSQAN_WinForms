@@ -4,10 +4,7 @@ namespace zk4500.Shared.Requests
 {
     public class VerifyFingerPrintRequest : Request
     {
-        public string Username { get; set; }
-        public string Password { get; set; }
-
-
+        
 
     }
 }

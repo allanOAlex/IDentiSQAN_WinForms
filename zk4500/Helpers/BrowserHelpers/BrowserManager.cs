@@ -1,9 +1,7 @@
 ﻿using Microsoft.Playwright;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using zk4500.Extensions;
 using zk4500.Shared.Requests;
 
 namespace zk4500.Helpers.BrowserHelpers
@@ -22,43 +20,111 @@ namespace zk4500.Helpers.BrowserHelpers
 
         public async Task Initialize()
         {
-            playwright = await Playwright.CreateAsync();
-            browser = await playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions { Headless = false });
+            try
+            {
+                playwright = await Playwright.CreateAsync();
+                //browser = await playwright.Chromium.LaunchAsync();
+                browser = await playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions { Headless = false });
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            
+        }
+
+        public async Task<bool> LoginUser(LoginRequest loginRequest)
+        {
+            try
+            {
+                string apiUrl = "http://192.168.8.100/promed/verification-api.php";
+
+                string queryString = $"id={Uri.EscapeDataString(loginRequest.PowerAppShell.ToString())}&Username={Uri.EscapeDataString(loginRequest.Username)}&ssd={Uri.EscapeDataString(loginRequest.Password)}&password={Uri.EscapeDataString(AppExtensions.CTO)}";
+
+                string fullUrl = apiUrl + "?" + queryString;
+
+                if (page != null)
+                {
+                    //await page.GoToAsync($"{fullUrl}");
+                    await page.GotoAsync($"{fullUrl}");
+                    return true;
+                }
+
+                return false;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            
         }
 
         public async Task CreateNewPage()
         {
-            page = await browser.NewPageAsync();
-        }
-
-        public void ClosePage()
-        {
-            page?.CloseAsync().Wait();
-            page = null;
-        }
-
-        public async Task LoginUser(LoginRequest loginRequest)
-        {
-            if (page != null)
+            try
             {
-                // Use currentPage to perform web interactions
-                await page.GotoAsync("https://www.google.com/");
+                page = await browser.NewPageAsync();
             }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
         }
 
         public void LogoutUser()
         {
-            ClosePage();
+            try
+            {
+                ClosePage();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            
+        }
+
+        public void ClosePage()
+        {
+            try
+            {
+                page?.CloseAsync().Wait();
+                page = null;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
         }
 
         public void ExitApplication()
         {
-            if (browser != null)
+            try
             {
-                browser.CloseAsync().Wait();
-                browser = null;
+                if (browser != null)
+                {
+                    browser.CloseAsync().Wait();
+                    browser = null;
+                }
             }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            
         }
 
+
+
     }
+
+
 }

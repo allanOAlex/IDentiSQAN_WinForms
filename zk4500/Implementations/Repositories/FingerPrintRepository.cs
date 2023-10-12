@@ -10,8 +10,6 @@ using zk4500.Abstractions.IServices;
 using zk4500.DataContext;
 using zk4500.Entities;
 using zk4500.Extensions;
-using zk4500.Shared.Requests;
-using zk4500.Shared.Responses;
 
 namespace zk4500.Implementations.Repositories
 {
@@ -85,7 +83,7 @@ namespace zk4500.Implementations.Repositories
                             return entity;
                         }
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
                         throw;
                     }
@@ -150,7 +148,7 @@ namespace zk4500.Implementations.Repositories
                             }
                         }
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
                         throw;
                     }

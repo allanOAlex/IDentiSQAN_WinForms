@@ -1,7 +1,6 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
@@ -11,8 +10,6 @@ using zk4500.Abstractions.IServices;
 using zk4500.DataContext;
 using zk4500.Entities;
 using zk4500.Extensions;
-using zk4500.Shared.Requests;
-using zk4500.Shared.Responses;
 
 namespace zk4500.Implementations.Repositories
 {
@@ -182,13 +179,13 @@ namespace zk4500.Implementations.Repositories
                             }
                         }
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
                         throw;
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
                 throw;
@@ -251,7 +248,7 @@ namespace zk4500.Implementations.Repositories
                             }
                         }
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
                         throw;
                     }
@@ -351,7 +348,7 @@ namespace zk4500.Implementations.Repositories
                             }
                         }
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
                         throw;
                     }
@@ -435,7 +432,7 @@ namespace zk4500.Implementations.Repositories
                                 }
                             }
                         }
-                        catch (Exception ex)
+                        catch (Exception)
                         {
                             throw;
                         }
@@ -497,7 +494,7 @@ namespace zk4500.Implementations.Repositories
                             result = await cmd.ExecuteNonQueryAsync();
                         }
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
                         throw;
                     }

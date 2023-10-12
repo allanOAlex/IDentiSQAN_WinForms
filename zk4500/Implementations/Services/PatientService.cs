@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -274,7 +272,7 @@ namespace zk4500.Implementations.Services
                     return new ApiResponse<FetchPatientResponse> { Successful = true, Message = "", Datas = patienstList };
                 }
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
 
                     throw;
@@ -322,7 +320,7 @@ namespace zk4500.Implementations.Services
 
                 };
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }
