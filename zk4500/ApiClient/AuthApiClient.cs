@@ -1,6 +1,8 @@
 ﻿using Microsoft.Playwright;
 using Newtonsoft.Json;
 using System;
+using System.IO;
+using System.IO.Pipes;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -37,7 +39,7 @@ namespace zk4500.ApiClient
 
                 //await InvokeBrowser(fullUrl);
 
-                //CallWindowsService($"https://learn.microsoft.com/en-us/dotnet/framework/configure-apps/how-to-enable-and-disable-automatic-binding-redirection?redirectedfrom=MSDN");
+                CallWindowsService($"https://learn.microsoft.com/en-us/dotnet/framework/configure-apps/how-to-enable-and-disable-automatic-binding-redirection?redirectedfrom=MSDN");
 
             }
             catch (Exception)
@@ -70,7 +72,7 @@ namespace zk4500.ApiClient
 
                     string fullUrl = apiUrl + "?" + queryString;
 
-                    //CallWindowsService(fullUrl);
+                    CallWindowsService(fullUrl);
 
                     //await InvokeBrowser(fullUrl);
                 }
@@ -89,20 +91,20 @@ namespace zk4500.ApiClient
             }
         }
 
-        //private static void CallWindowsService(string url)
-        //{
-        //    NamedPipeClientStream clientPipe = new NamedPipeClientStream(".", "BrowserServicePipe", PipeDirection.Out);
+        private static void CallWindowsService(string url)
+        {
+            NamedPipeClientStream clientPipe = new NamedPipeClientStream(".", "BrowserServicePipe", PipeDirection.Out);
 
-        //    clientPipe.Connect();
+            clientPipe.Connect();
 
-        //    using (StreamWriter writer = new StreamWriter(clientPipe))
-        //    {
-        //        // Send the URL to launch the browser
-        //        writer.Write($"{url}");
-        //    }
+            using (StreamWriter writer = new StreamWriter(clientPipe))
+            {
+                // Send the URL to launch the browser
+                writer.Write($"{url}");
+            }
 
-        //    clientPipe.Close();
-        //}
+            clientPipe.Close();
+        }
 
         public async Task CallApiWithEncodedQueryParams(LoginRequest loginRequest)
         {

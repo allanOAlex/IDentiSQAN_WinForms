@@ -24,6 +24,7 @@ namespace zk4500
         private AxZKFPEngX ZkFprint = new AxZKFPEngX();
         private readonly IServiceManager serviceManager;
         private readonly IAuthApiClient authApiClient;
+        private Timer exitTimer;
         //private readonly BrowserManager browserManager;
 
         RegisterFingerPrintRequest registerFingerPrintRequest = new RegisterFingerPrintRequest();
@@ -155,9 +156,9 @@ namespace zk4500
                         {
                             ShowHintInfo($"Capturing multiple fingerprints is not allowed. Please select one item");
                             return;
-                }
-                else
-                {
+                        }
+                        else
+                        {
                             foreach (var item in selectedPatients)
                             {
                                 labelMessage.Visible = true;
@@ -189,7 +190,7 @@ namespace zk4500
 
                             }
 
-                        }
+                        }     
                     }
                 }
                 else
@@ -316,9 +317,9 @@ namespace zk4500
                     btnClear_Click(sender, new EventArgs());
                     AppExtensions.SelectedId = registerFingerPrintRequest.Id;
 
-                    MessageBox.Show($"Please wait while we update your patient data", "Pro-Med. Comprehensive Management Solutions", MessageBoxButtons.OK, MessageBoxIcon.Information );
+                    MessageBox.Show($"Please wait while we update your data", "Pro-Med. Comprehensive Management Solutions", MessageBoxButtons.OK, MessageBoxIcon.Information );
 
-                    ShowCustomMessage("Updating your patient data..." +
+                    ShowCustomMessage("Updating your data..." +
                     "\n  Pro-Med. Comprehensive Management Solutions");
 
                     await BeginRefreshGrid(AppExtensions.SelectedId);
@@ -1117,11 +1118,13 @@ namespace zk4500
         {
             try
             {
-                Main main = new Main(serviceManager, authApiClient);
-                Close();
-                main.Enabled = true;
-                main.Show();
-                
+                //Main main = new Main(serviceManager, authApiClient);
+                //Close();
+                WindowState = FormWindowState.Minimized;
+                //main.Enabled = true;
+                //main.Show();
+
+
             }
             catch (Exception)
             {
@@ -1175,12 +1178,11 @@ namespace zk4500
             try
             {
                 Login login = new Login(serviceManager, authApiClient, browserManager);
-                Hide();
-                WindowState = FormWindowState.Minimized;
+                
                 Enabled = false;
                 login.ShowDialog();
-                
-                
+                Enabled = true;
+                WindowState = FormWindowState.Minimized;
             }
             catch (Exception)
             {
@@ -1191,7 +1193,8 @@ namespace zk4500
 
         private void exitToolStripMenuItemForm1_Click(object sender, EventArgs e)
         {
-            AppExtensions.ReturnToMain();
+            Application.Exit();
+            //AppExtensions.ReturnToMain();
         }
 
         private void HideFormElements()
@@ -1285,6 +1288,49 @@ namespace zk4500
 
                 throw;
             }
+        }
+
+        private void HandleApplicationLifetime()
+        {
+            try
+            {
+                DateTime currentTime = DateTime.Now;
+                DateTime targetTime = DateTime.Today.AddHours(18);
+                TimeSpan timeRemaining;
+
+                // If the current time is already past 4 am, calculate the time remaining for the next day
+                if (DateTime.Now >= targetTime)
+                {
+                    targetTime = targetTime.AddDays(1);
+                    timeRemaining = targetTime - DateTime.Now;
+                }
+                else
+                {
+                    timeRemaining = targetTime - DateTime.Now;
+                }
+
+                if (timeRemaining.TotalMilliseconds > 0)
+                {
+                    // Set up the timer with the remaining time
+                    exitTimer = new Timer();
+                    exitTimer.Interval = (int)timeRemaining.TotalMilliseconds;
+                    exitTimer.Tick += ExitApplication;
+                    exitTimer.Start();
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+        }
+
+
+        private void ExitApplication(object sender, EventArgs e)
+        {
+            // Exit the application when the timer ticks
+            Application.Exit();
         }
 
 

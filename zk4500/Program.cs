@@ -28,14 +28,12 @@ namespace zk4500
 
             IUnityContainer container = UnityConfig.RegisterComponents();
 
-            // Resolve the Form1 instance with dependencies
-            var registerFingerPrintRequest = new RegisterFingerPrintRequest();
-            var form1 = container.Resolve<Form1>(new DependencyOverride<RegisterFingerPrintRequest>(registerFingerPrintRequest));
+            //var registerFingerPrintRequest = new RegisterFingerPrintRequest();
+            //var form1 = container.Resolve<Form1>(new DependencyOverride<RegisterFingerPrintRequest>(registerFingerPrintRequest));
 
-            Login form = container.Resolve<Login>();
-            Main main = container.Resolve<Main>();
+            Form1 form = container.Resolve<Form1>();
 
-            Application.Run(main);
+            Application.Run(form);
 
 
         }

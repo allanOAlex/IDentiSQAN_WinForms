@@ -14,6 +14,7 @@ using zk4500.Implementations.Interfaces;
 using zk4500.Implementations.Repositories;
 using zk4500.Implementations.Services;
 using zk4500.DataContext;
+using zk4500.Forms;
 
 namespace zk4500.Extensions
 {
@@ -37,6 +38,9 @@ namespace zk4500.Extensions
             container.RegisterType<IDbConnection>(new InjectionFactory(c => new DapperContext(c.Resolve<IConfigurationService>()).CreateConnection()));
 
             container.RegisterInstance(CreateHttpClient());
+
+            container.Resolve<Main>();
+            container.Resolve<Login>();
 
             return container;
         }

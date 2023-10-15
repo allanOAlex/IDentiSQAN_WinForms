@@ -243,7 +243,7 @@
             this.goBackToolStripMenuItemForm1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(52)))), ((int)(((byte)(71)))));
             this.goBackToolStripMenuItemForm1.Name = "goBackToolStripMenuItemForm1";
             this.goBackToolStripMenuItemForm1.Size = new System.Drawing.Size(90, 48);
-            this.goBackToolStripMenuItemForm1.Text = "Go Back";
+            this.goBackToolStripMenuItemForm1.Text = "Minimize";
             this.goBackToolStripMenuItemForm1.Click += new System.EventHandler(this.goBackToolStripMenuItemForm1_Click);
             // 
             // captureFingerprintToolStripMenuItem

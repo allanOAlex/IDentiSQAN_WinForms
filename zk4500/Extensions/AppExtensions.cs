@@ -37,6 +37,7 @@ namespace zk4500.Extensions
         public static string UserImageTemplate { get; set; }
         public static bool IsPatient { get; set; }
         public static string CTO { get; set; }
+        public static int ManageBrowserUsingBrowserManagerClass { get; set; } = 1;
         public static DataGridView registeredPatientsGridView { get; set; }
         public static FetchUserResponse FetchUserResponse { get; set; }
         public static VerifyFingerPrintRequest VerifyFingerPrintRequest { get; set; }
@@ -137,7 +138,7 @@ namespace zk4500.Extensions
             // First, collect the forms to close
             foreach (Form form in Application.OpenForms)
             {
-                if (form.Name != "Main")
+                if (form.Name != "Form1")
                 {
                     formsToClose.Add(form);
                 }
@@ -150,7 +151,7 @@ namespace zk4500.Extensions
         }
 
             // Finally, show the Main form
-            Main mainForm = new Main(serviceManager, authApiClient);
+            Form1 mainForm = new Form1(serviceManager, authApiClient);
             mainForm.Enabled = true;
             mainForm.Show();
         }

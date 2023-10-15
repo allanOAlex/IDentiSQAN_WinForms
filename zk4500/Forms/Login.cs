@@ -190,48 +190,47 @@ namespace zk4500.Forms
                     try
                     {
                         ShowHintInfo("Please wait while we validate your credentials ..");
-                        await Task.Delay(2000);
-                        Hide();
-                        WindowState = FormWindowState.Minimized;
-                        Enabled = false;
 
-                        await browserManager.LoginUser(userToVerify);
-                        //WindowState = FormWindowState.Minimized;
-                        Close();
+                        if (AppExtensions.ManageBrowserUsingBrowserManagerClass == 1)
+                        {
+                            switch (await browserManager.LoginUser(userToVerify))
+                            {
+                                case true:
+                                    Close();
+                                    break;
 
-                        //InvokeHMIS(userToVerify);
+                                case false:
+                                    ShowHintInfo("Something went wrong. Please contact system admin.");
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
 
-                        //if (await InvokeHMIS(userToVerify) != true)
-                        //{
-                        //    ShowHintInfo($"User Authentication failed. \nPlease check your login details");
-                        //    MessageBox.Show($"Failed");
-                        //    return;
-                        //}
-                        //else
-                        //{
-                        //    fingerBox.Image = null;
-                        //    buttonLogin.Enabled = false;
-                        //    MessageBox.Show($"Success");
-                        //    ShowHintInfo("Authentication Successful !!");
+                        if (AppExtensions.ManageBrowserUsingBrowserManagerClass == 2)
+                        {
+                            InvokeHMIS(userToVerify);
+                            MessageBox.Show($"Hello, {userToVerify.FullName}", "Authentication Successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            Close();
+                        }
 
-                        //}
+                        if (AppExtensions.ManageBrowserUsingBrowserManagerClass == 3)
+                        {
+                            switch (NotifyVerified(userToVerify).Result.Successful)
+                            {
+                                case true:
+                                    MessageBox.Show($"Success");
+                                    break;
 
-                        //ShowHintInfo("Please wait while we validate your credentials ..");
-                        //if (NotifyVerified(userToVerify).Result.Successful != true)
-                        //{
-                        //    ShowHintInfo($"User Authentication failed. \nPlease check your login details");
-                        //    MessageBox.Show($"Failed");
-                        //    return;
-                        //}
-                        //else
-                        //{
-                        //    MessageBox.Show($"Success");
+                                case false:
+                                    ShowHintInfo($"User Authentication failed. \nPlease check your login details");
+                                    MessageBox.Show($"Failed");
+                                    return;
 
-                        //    //
-
-                        //    //Application.Exit();
-                        //}
-
+                                default:
+                                    break;
+                            }
+                        }
 
                     }
                     catch (Exception)
