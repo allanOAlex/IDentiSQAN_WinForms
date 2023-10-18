@@ -222,21 +222,21 @@ namespace zk4500.Implementations.Services
 
                 try
                 {
-                if (patientsToFind.Any())
-                {
+                    if (patientsToFind.Any())
+                    {
                         if (patientsToFind.Count() > 1)
                         {
-                    foreach (var item in patientsToFind)
-                    {
+                            foreach (var item in patientsToFind)
+                            {
                                 patient = new FetchPatientResponse
-                        {
+                                {
                                     Title = item.Title,
-                            Id = item.Id,
-                            FirstName = item.FirstName,
-                            MiddleName = item.MiddleName,
-                            LastName = item.LastName,
-                            IPOPNumber = item.IPOPNumber,
-                            IDNumber = item.IDNumber,
+                                    Id = item.Id,
+                                    FirstName = item.FirstName,
+                                    MiddleName = item.MiddleName,
+                                    LastName = item.LastName,
+                                    IPOPNumber = item.IPOPNumber,
+                                    IDNumber = item.IDNumber,
                                     PhoneNumber = item.PhoneNumber,
                                     ImageTemplate = item.FingerData
                                 };
@@ -246,31 +246,31 @@ namespace zk4500.Implementations.Services
                         }
                         else
                         {
-                            patient = new FetchPatientResponse
+                            var foundPatient = patientsToFind.FirstOrDefault();
+                            if (foundPatient != null)
                             {
-                                Title = patientsToFind.FirstOrDefault().Title,
-                                Id = patientsToFind.FirstOrDefault().Id,
-                                FirstName = patientsToFind.FirstOrDefault().FirstName,
-                                MiddleName = patientsToFind.FirstOrDefault().MiddleName,
-                                LastName = patientsToFind.FirstOrDefault().LastName,
-                                IPOPNumber = patientsToFind.FirstOrDefault().IPOPNumber,
-                                IDNumber = patientsToFind.FirstOrDefault().IDNumber,
-                                PhoneNumber = patientsToFind.FirstOrDefault().PhoneNumber,
-                                ImageTemplate = patientsToFind.FirstOrDefault().FingerData
-                        };
+                                patient = new FetchPatientResponse
+                                {
+                                    Title = patientsToFind.FirstOrDefault().Title,
+                                    Id = patientsToFind.FirstOrDefault().Id,
+                                    FirstName = patientsToFind.FirstOrDefault().FirstName,
+                                    MiddleName = patientsToFind.FirstOrDefault().MiddleName,
+                                    LastName = patientsToFind.FirstOrDefault().LastName,
+                                    IPOPNumber = patientsToFind.FirstOrDefault().IPOPNumber,
+                                    IDNumber = patientsToFind.FirstOrDefault().IDNumber,
+                                    PhoneNumber = patientsToFind.FirstOrDefault().PhoneNumber,
+                                    ImageTemplate = patientsToFind.FirstOrDefault().FingerData
+                                };
 
-                            patienstList.Add(patient);
+                                patienstList.Add(patient);
+                            }
+                        }
+
+                        if (patienstList.Count >= 1)
+                            return new ApiResponse<FetchPatientResponse> { Successful = true, Message = "", Datas = patienstList };
                     }
 
-                        
-
-                        
-
-                    if (patienstList.Count > 1)
-                        return new ApiResponse<FetchPatientResponse> { Successful = true, Message = "", Datas = patienstList };
-
-                    return new ApiResponse<FetchPatientResponse> { Successful = true, Message = "", Datas = patienstList };
-                }
+                    return new ApiResponse<FetchPatientResponse> { Successful = false, Message = "No records found", Data = new FetchPatientResponse() };
                 }
                 catch (Exception)
                 {
@@ -278,8 +278,6 @@ namespace zk4500.Implementations.Services
                     throw;
                 }
 
-
-                return new ApiResponse<FetchPatientResponse> { Successful = false, Message = "No records found", Data = new FetchPatientResponse() };
             }
             catch (Exception ex)
             {

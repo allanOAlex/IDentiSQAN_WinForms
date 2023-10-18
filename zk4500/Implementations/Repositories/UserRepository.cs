@@ -74,7 +74,7 @@ namespace zk4500.Implementations.Repositories
                     $"TU.email Email, " +
                     $"TU.userDepartmentID DepartmentId, " +
                     $"TU.isActive IsActive " +
-                    $"FROM Promed.tbl_users TU " +
+                    $"FROM tbl_users TU " +
                     $"LEFT JOIN tbl_finger_prints TFP ON TU.id = TFP.patientID " +
                     $"WHERE TFP.patientID IS NULL;"; ;
                     
@@ -187,7 +187,7 @@ namespace zk4500.Implementations.Repositories
                     $"TU.userDepartmentID DepartmentId, " +
                     $"TU.isActive IsActive, " +
                     $"TFP.fingerPrintTemplate ImageTemplate " +
-                    $"FROM Promed.tbl_users TU " +
+                    $"FROM tbl_users TU " +
                     $"LEFT JOIN tbl_finger_prints TFP ON TU.id = TFP.patientID " +
                     $"WHERE TFP.patientID IS NOT NULL AND TFP.entityType = 2";
 

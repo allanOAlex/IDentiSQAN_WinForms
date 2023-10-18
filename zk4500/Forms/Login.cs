@@ -22,6 +22,7 @@ namespace zk4500.Forms
         private AxZKFPEngX ZkFprint = new AxZKFPEngX();
         private readonly IServiceManager serviceManager;
         private readonly IAuthApiClient authApiClient;
+        private readonly BrowserManager browserManager;
 
         VerifyFingerPrintRequest verifyFingerPrintRequest = new VerifyFingerPrintRequest();
         VerifyFingerPrintResponse verifyFingerPrintResponse = new VerifyFingerPrintResponse();
@@ -30,7 +31,6 @@ namespace zk4500.Forms
 
         private bool Check;
 
-        private BrowserManager browserManager;
 
         public Login(IServiceManager ServiceManager, IAuthApiClient AuthApiClient, BrowserManager BrowserManager)
         {
@@ -44,7 +44,9 @@ namespace zk4500.Forms
 
         private void Login_Load(object sender, EventArgs e)
         {
-            labelLoginCaption.Text = $"Pro-Med Biometrics Login";
+            labelLoginCaption.Text = $"User Login";
+            goBackToolStripMenuItemLogin.Visible = false;
+            exitToolStripMenuItem.Alignment = ToolStripItemAlignment.Right;
             Controls.Add(ZkFprint);
             InitialAxZkfp();
 
@@ -256,7 +258,21 @@ namespace zk4500.Forms
         {
             try
             {
-                await browserManager.CreateNewPage();
+                await browserManager.Initialize();
+
+                try
+                {
+                    if (!await browserManager.CreateNewPage() == true)
+                    {
+                        MessageBox.Show("Error: Browser Is Null: [Login]");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error: {ex.Message}");
+                    throw;
+                };
+                
                 
                 StringBuilder stringBuilder = new StringBuilder();
                 string username = textBoxUsername.Text;
@@ -264,7 +280,6 @@ namespace zk4500.Forms
 
                 string password = maskedTextBoxPassword.Text;
                 string passwordPattern = @"^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*()-+=<>?/\[\]{}|~.`])[^ \t\r\n\v\f]{8,}$";
-
 
                 if (string.IsNullOrEmpty(textBoxUsername.Text) || string.IsNullOrEmpty(maskedTextBoxPassword.Text))
                 {
@@ -363,10 +378,7 @@ namespace zk4500.Forms
 
                     AppExtensions.CTO = string.Concat(AppExtensions.RandomString(), AppExtensions.RandomString()); 
                     AppExtensions.LoginRequest = loginRequest;
-
-                    
                     PromptForFingerPrint();
-
                 }
 
             }
@@ -389,6 +401,7 @@ namespace zk4500.Forms
                 {
                     ZkFprint.CancelEnroll();
                 }
+
                 ZkFprint.OnCapture += OnCapture;
                 ZkFprint.BeginCapture();
                 ShowHintInfo("Please give fingerprint sample.");
@@ -447,7 +460,18 @@ namespace zk4500.Forms
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            AppExtensions.ReturnToMain();
+            try
+            {
+                //AppExtensions.ReturnToMain();
+                Form1 form1 = new Form1(serviceManager, authApiClient);
+                form1.Show();
+                Close();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         private void goBackToolStripMenuItemLogin_Click(object sender, EventArgs e)
@@ -481,7 +505,6 @@ namespace zk4500.Forms
                     ShowHintInfo("Please confirm device connection. \nClose the application, connect device, then start the application.");
 
                     return false;
-
                 }
                 else
                 {

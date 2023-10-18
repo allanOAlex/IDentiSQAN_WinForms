@@ -58,6 +58,16 @@ namespace zk4500.Extensions
             return Connection = "Promed";
         }
 
+        public static string GetDB(int Id)
+        {
+            if (Id != 0)
+            {
+                return Connection = "promed_bwh";
+            }
+
+            return Connection = "Promed";
+        }
+
         public static bool HasProperty(dynamic obj, string propertyName)
         {
             try
@@ -196,6 +206,33 @@ namespace zk4500.Extensions
                 throw;
             }
         }
+
+        public static string RandomQuadString()
+        {
+            try
+            {
+                int length = 4; // Length of the random string
+                string characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+                Random random = new Random();
+                StringBuilder result = new StringBuilder(length);
+
+                for (int i = 0; i < length; i++)
+                {
+                    int index = random.Next(characters.Length);
+                    result.Append(characters[index]);
+                }
+
+                string randomString = result.ToString();
+
+                return randomString;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
 
         public static string ToString(this DateTime? dt, string format) => dt == null ? "n/a" : ((DateTime)dt).ToString(format);
         public static string ToString(this DateTimeOffset? dt, string format) => dt == null ? "n/a" : ((DateTimeOffset)dt).ToString(format);

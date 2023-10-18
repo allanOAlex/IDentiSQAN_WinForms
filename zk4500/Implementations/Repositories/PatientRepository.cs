@@ -283,8 +283,8 @@ namespace zk4500.Implementations.Repositories
                         $"LEFT JOIN tbl_finger_prints TFP ON TRP.Id = TFP.patientID " +
                         $"WHERE TFP.patientID IS NULL";
 
-                        break; 
-                    
+                        break;
+
                     case var deptId when deptId != 14:
 
                         sqlQuery = $"SELECT " +

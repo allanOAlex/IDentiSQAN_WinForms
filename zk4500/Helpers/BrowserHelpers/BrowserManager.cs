@@ -17,9 +17,18 @@ namespace zk4500.Helpers.BrowserHelpers
 
         public BrowserManager()
         {
-                
+           
         }
 
+        //public BrowserManager(IPlaywright Playwright, IBrowser Browser, IBrowserContext Context, IPage Page)
+        //{
+        //    playwright = Playwright;
+        //    browser = Browser;
+        //    context = Context;
+        //    page = Page;
+
+        //    Initialize();
+        //}
 
         public async Task Initialize()
         {
@@ -42,20 +51,22 @@ namespace zk4500.Helpers.BrowserHelpers
         {
             try
             {
-                string fullUrl = string.Empty;  
+                string fullUrl = string.Empty;
+                string apiUrl = "http://192.168.8.100/promed/verification-api.php";
+
+                string queryString = $"id={Uri.EscapeDataString(loginRequest.PowerAppShell.ToString())}&Username={Uri.EscapeDataString(loginRequest.Username)}&ssd={Uri.EscapeDataString(loginRequest.Password)}&password={Uri.EscapeDataString(AppExtensions.CTO)}";
+
+                fullUrl = apiUrl + "?" + queryString;
+
                 switch (AppExtensions.ManageBrowserUsingBrowserManagerClass)
                 {
                     case 4:
 
-                        string apiUrl = "http://192.168.8.100/promed/verification-api.php";
-
-                        string queryString = $"id={Uri.EscapeDataString(loginRequest.PowerAppShell.ToString())}&Username={Uri.EscapeDataString(loginRequest.Username)}&ssd={Uri.EscapeDataString(loginRequest.Password)}&password={Uri.EscapeDataString(AppExtensions.CTO)}";
-
-                        fullUrl = apiUrl + "?" + queryString;
+                        
 
                         if (page != null)
                         {
-                            await page.GotoAsync($"https://www.lionblogger.com/category/featured/", new PageGotoOptions
+                            await page.GotoAsync($"{fullUrl}", new PageGotoOptions
                             {
                                 WaitUntil = WaitUntilState.Commit,
                                 Timeout = 0
@@ -71,7 +82,7 @@ namespace zk4500.Helpers.BrowserHelpers
                             await CreateNewPage();
                         }
 
-                        await page.GotoAsync($"https://www.lionblogger.com/category/featured/", new PageGotoOptions
+                        await page.GotoAsync($"{fullUrl}", new PageGotoOptions
                         {
                             WaitUntil = WaitUntilState.Commit,
                             Timeout = 0
@@ -89,18 +100,23 @@ namespace zk4500.Helpers.BrowserHelpers
             }
         }
 
-        public async Task CreateNewPage()
+        public async Task<bool> CreateNewPage()
         {
             try
             {
-                page = await browser.NewPageAsync();
+                if (browser != null)
+                {
+                    page = await browser.NewPageAsync();
+                    return true;
+                }
+                
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                MessageBox.Show($"Error creating new browser page. {ex.Message}");
             }
 
+            return false;
         }
 
         public void LogoutUser()

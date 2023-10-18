@@ -45,6 +45,7 @@
             this.menuStripForm1 = new System.Windows.Forms.MenuStrip();
             this.exitToolStripMenuItemForm1 = new System.Windows.Forms.ToolStripMenuItem();
             this.goBackToolStripMenuItemForm1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.goBackToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.captureFingerprintToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.userFingerprintToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.patientFingerprintToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -63,10 +64,10 @@
             this.btnVerify.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnVerify.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnVerify.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnVerify.Location = new System.Drawing.Point(564, 593);
+            this.btnVerify.Location = new System.Drawing.Point(526, 555);
             this.btnVerify.Margin = new System.Windows.Forms.Padding(4);
             this.btnVerify.Name = "btnVerify";
-            this.btnVerify.Size = new System.Drawing.Size(111, 45);
+            this.btnVerify.Size = new System.Drawing.Size(97, 33);
             this.btnVerify.TabIndex = 2;
             this.btnVerify.Text = "&Verify";
             this.btnVerify.UseVisualStyleBackColor = false;
@@ -76,8 +77,8 @@
             // 
             this.prompt.AutoSize = true;
             this.prompt.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.prompt.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(70)))), ((int)(((byte)(97)))));
-            this.prompt.Location = new System.Drawing.Point(416, 470);
+            this.prompt.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(19)))), ((int)(((byte)(25)))), ((int)(((byte)(23)))));
+            this.prompt.Location = new System.Drawing.Point(416, 407);
             this.prompt.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.prompt.Name = "prompt";
             this.prompt.Size = new System.Drawing.Size(93, 24);
@@ -88,7 +89,7 @@
             // fpicture
             // 
             this.fpicture.BackColor = System.Drawing.SystemColors.Window;
-            this.fpicture.Location = new System.Drawing.Point(39, 421);
+            this.fpicture.Location = new System.Drawing.Point(39, 362);
             this.fpicture.Margin = new System.Windows.Forms.Padding(4);
             this.fpicture.Name = "fpicture";
             this.fpicture.Size = new System.Drawing.Size(268, 283);
@@ -98,14 +99,14 @@
             // 
             // btnRegister
             // 
-            this.btnRegister.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(91)))), ((int)(((byte)(97)))));
+            this.btnRegister.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
             this.btnRegister.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnRegister.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnRegister.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnRegister.Location = new System.Drawing.Point(420, 593);
+            this.btnRegister.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(19)))), ((int)(((byte)(25)))), ((int)(((byte)(23)))));
+            this.btnRegister.Location = new System.Drawing.Point(420, 555);
             this.btnRegister.Margin = new System.Windows.Forms.Padding(4);
             this.btnRegister.Name = "btnRegister";
-            this.btnRegister.Size = new System.Drawing.Size(111, 45);
+            this.btnRegister.Size = new System.Drawing.Size(98, 33);
             this.btnRegister.TabIndex = 22;
             this.btnRegister.Text = "&Capture";
             this.btnRegister.UseVisualStyleBackColor = false;
@@ -113,14 +114,14 @@
             // 
             // btnClear
             // 
-            this.btnClear.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(52)))), ((int)(((byte)(71)))));
+            this.btnClear.BackColor = System.Drawing.Color.SteelBlue;
             this.btnClear.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnClear.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnClear.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnClear.Location = new System.Drawing.Point(420, 659);
+            this.btnClear.Location = new System.Drawing.Point(420, 610);
             this.btnClear.Margin = new System.Windows.Forms.Padding(4);
             this.btnClear.Name = "btnClear";
-            this.btnClear.Size = new System.Drawing.Size(255, 45);
+            this.btnClear.Size = new System.Drawing.Size(203, 35);
             this.btnClear.TabIndex = 22;
             this.btnClear.Text = "&Clear";
             this.btnClear.UseVisualStyleBackColor = false;
@@ -130,7 +131,7 @@
             // 
             this.registeredPatientsGridView.BackgroundColor = System.Drawing.SystemColors.ScrollBar;
             this.registeredPatientsGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.registeredPatientsGridView.Location = new System.Drawing.Point(39, 216);
+            this.registeredPatientsGridView.Location = new System.Drawing.Point(39, 154);
             this.registeredPatientsGridView.Name = "registeredPatientsGridView";
             this.registeredPatientsGridView.RowHeadersWidth = 51;
             this.registeredPatientsGridView.RowTemplate.Height = 24;
@@ -142,7 +143,7 @@
             this.labelFilterText.AutoSize = true;
             this.labelFilterText.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelFilterText.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(44)))), ((int)(((byte)(57)))));
-            this.labelFilterText.Location = new System.Drawing.Point(45, 138);
+            this.labelFilterText.Location = new System.Drawing.Point(45, 87);
             this.labelFilterText.Name = "labelFilterText";
             this.labelFilterText.Size = new System.Drawing.Size(101, 26);
             this.labelFilterText.TabIndex = 25;
@@ -151,27 +152,27 @@
             // comboBoxFilter
             // 
             this.comboBoxFilter.FormattingEnabled = true;
-            this.comboBoxFilter.Location = new System.Drawing.Point(162, 138);
+            this.comboBoxFilter.Location = new System.Drawing.Point(161, 92);
             this.comboBoxFilter.Name = "comboBoxFilter";
             this.comboBoxFilter.Size = new System.Drawing.Size(222, 23);
             this.comboBoxFilter.TabIndex = 26;
             // 
             // searchRichTextBox
             // 
-            this.searchRichTextBox.Location = new System.Drawing.Point(402, 138);
+            this.searchRichTextBox.Location = new System.Drawing.Point(401, 93);
             this.searchRichTextBox.Name = "searchRichTextBox";
             this.searchRichTextBox.Size = new System.Drawing.Size(274, 22);
             this.searchRichTextBox.TabIndex = 27;
             // 
             // btnSearch
             // 
-            this.btnSearch.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(52)))), ((int)(((byte)(71)))));
+            this.btnSearch.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
             this.btnSearch.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSearch.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnSearch.Location = new System.Drawing.Point(776, 127);
+            this.btnSearch.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(19)))), ((int)(((byte)(25)))), ((int)(((byte)(23)))));
+            this.btnSearch.Location = new System.Drawing.Point(749, 92);
             this.btnSearch.Name = "btnSearch";
-            this.btnSearch.Size = new System.Drawing.Size(106, 33);
+            this.btnSearch.Size = new System.Drawing.Size(85, 33);
             this.btnSearch.TabIndex = 28;
             this.btnSearch.Text = "Search";
             this.btnSearch.UseVisualStyleBackColor = false;
@@ -179,13 +180,13 @@
             // 
             // btnExit
             // 
-            this.btnExit.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(197)))), ((int)(((byte)(31)))), ((int)(((byte)(93)))));
+            this.btnExit.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(19)))), ((int)(((byte)(25)))), ((int)(((byte)(23)))));
             this.btnExit.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnExit.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnExit.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnExit.Location = new System.Drawing.Point(1093, 127);
+            this.btnExit.Location = new System.Drawing.Point(1098, 93);
             this.btnExit.Name = "btnExit";
-            this.btnExit.Size = new System.Drawing.Size(90, 33);
+            this.btnExit.Size = new System.Drawing.Size(85, 32);
             this.btnExit.TabIndex = 29;
             this.btnExit.Text = "Refresh";
             this.btnExit.UseVisualStyleBackColor = false;
@@ -196,7 +197,7 @@
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(44)))), ((int)(((byte)(57)))));
-            this.label1.Location = new System.Drawing.Point(46, 181);
+            this.label1.Location = new System.Drawing.Point(46, 131);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(78, 20);
             this.label1.TabIndex = 30;
@@ -207,7 +208,7 @@
             this.labelMessage.AutoSize = true;
             this.labelMessage.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelMessage.ForeColor = System.Drawing.Color.Sienna;
-            this.labelMessage.Location = new System.Drawing.Point(417, 421);
+            this.labelMessage.Location = new System.Drawing.Point(416, 362);
             this.labelMessage.Name = "labelMessage";
             this.labelMessage.Size = new System.Drawing.Size(102, 20);
             this.labelMessage.TabIndex = 31;
@@ -216,35 +217,46 @@
             // menuStripForm1
             // 
             this.menuStripForm1.AutoSize = false;
+            this.menuStripForm1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(66)))), ((int)(((byte)(74)))));
             this.menuStripForm1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStripForm1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.exitToolStripMenuItemForm1,
             this.goBackToolStripMenuItemForm1,
+            this.goBackToolStripMenuItem,
             this.captureFingerprintToolStripMenuItem,
             this.loginToolStripMenuItem});
             this.menuStripForm1.Location = new System.Drawing.Point(0, 0);
             this.menuStripForm1.Name = "menuStripForm1";
-            this.menuStripForm1.Size = new System.Drawing.Size(1224, 52);
+            this.menuStripForm1.Size = new System.Drawing.Size(1224, 36);
             this.menuStripForm1.TabIndex = 33;
             this.menuStripForm1.Text = "menuStrip1";
             // 
             // exitToolStripMenuItemForm1
             // 
             this.exitToolStripMenuItemForm1.Font = new System.Drawing.Font("Arial", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.exitToolStripMenuItemForm1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(52)))), ((int)(((byte)(71)))));
+            this.exitToolStripMenuItemForm1.ForeColor = System.Drawing.Color.Linen;
             this.exitToolStripMenuItemForm1.Name = "exitToolStripMenuItemForm1";
-            this.exitToolStripMenuItemForm1.Size = new System.Drawing.Size(53, 48);
-            this.exitToolStripMenuItemForm1.Text = "Exit";
+            this.exitToolStripMenuItemForm1.Size = new System.Drawing.Size(34, 32);
+            this.exitToolStripMenuItemForm1.Text = "X";
             this.exitToolStripMenuItemForm1.Click += new System.EventHandler(this.exitToolStripMenuItemForm1_Click);
             // 
             // goBackToolStripMenuItemForm1
             // 
             this.goBackToolStripMenuItemForm1.Font = new System.Drawing.Font("Arial", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.goBackToolStripMenuItemForm1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(52)))), ((int)(((byte)(71)))));
+            this.goBackToolStripMenuItemForm1.ForeColor = System.Drawing.Color.Linen;
             this.goBackToolStripMenuItemForm1.Name = "goBackToolStripMenuItemForm1";
-            this.goBackToolStripMenuItemForm1.Size = new System.Drawing.Size(90, 48);
-            this.goBackToolStripMenuItemForm1.Text = "Minimize";
+            this.goBackToolStripMenuItemForm1.Size = new System.Drawing.Size(40, 32);
+            this.goBackToolStripMenuItemForm1.Text = "—";
             this.goBackToolStripMenuItemForm1.Click += new System.EventHandler(this.goBackToolStripMenuItemForm1_Click);
+            // 
+            // goBackToolStripMenuItem
+            // 
+            this.goBackToolStripMenuItem.Font = new System.Drawing.Font("Arial", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.goBackToolStripMenuItem.ForeColor = System.Drawing.Color.Linen;
+            this.goBackToolStripMenuItem.Name = "goBackToolStripMenuItem";
+            this.goBackToolStripMenuItem.Size = new System.Drawing.Size(121, 32);
+            this.goBackToolStripMenuItem.Text = "Reload Page";
+            this.goBackToolStripMenuItem.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
             // 
             // captureFingerprintToolStripMenuItem
             // 
@@ -252,9 +264,9 @@
             this.userFingerprintToolStripMenuItem,
             this.patientFingerprintToolStripMenuItem});
             this.captureFingerprintToolStripMenuItem.Font = new System.Drawing.Font("Arial", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.captureFingerprintToolStripMenuItem.ForeColor = System.Drawing.Color.Sienna;
+            this.captureFingerprintToolStripMenuItem.ForeColor = System.Drawing.Color.Linen;
             this.captureFingerprintToolStripMenuItem.Name = "captureFingerprintToolStripMenuItem";
-            this.captureFingerprintToolStripMenuItem.Size = new System.Drawing.Size(178, 48);
+            this.captureFingerprintToolStripMenuItem.Size = new System.Drawing.Size(178, 32);
             this.captureFingerprintToolStripMenuItem.Text = "Capture Fingerprint";
             // 
             // userFingerprintToolStripMenuItem
@@ -278,36 +290,36 @@
             // loginToolStripMenuItem
             // 
             this.loginToolStripMenuItem.Font = new System.Drawing.Font("Arial", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.loginToolStripMenuItem.ForeColor = System.Drawing.Color.Sienna;
+            this.loginToolStripMenuItem.ForeColor = System.Drawing.Color.Linen;
             this.loginToolStripMenuItem.Name = "loginToolStripMenuItem";
-            this.loginToolStripMenuItem.Size = new System.Drawing.Size(67, 48);
+            this.loginToolStripMenuItem.Size = new System.Drawing.Size(67, 32);
             this.loginToolStripMenuItem.Text = "Login";
             this.loginToolStripMenuItem.Click += new System.EventHandler(this.loginToolStripMenuItem_Click);
             // 
             // labeMainCaption
             // 
-            this.labeMainCaption.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(96)))), ((int)(((byte)(158)))), ((int)(((byte)(162)))));
+            this.labeMainCaption.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(120)))), ((int)(((byte)(107)))));
             this.labeMainCaption.Dock = System.Windows.Forms.DockStyle.Top;
             this.labeMainCaption.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.labeMainCaption.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labeMainCaption.ForeColor = System.Drawing.Color.Linen;
-            this.labeMainCaption.Location = new System.Drawing.Point(0, 52);
+            this.labeMainCaption.Location = new System.Drawing.Point(0, 36);
             this.labeMainCaption.Name = "labeMainCaption";
-            this.labeMainCaption.Size = new System.Drawing.Size(1224, 57);
+            this.labeMainCaption.Size = new System.Drawing.Size(1224, 33);
             this.labeMainCaption.TabIndex = 34;
             this.labeMainCaption.Text = "Pro-Med Biometrics";
             this.labeMainCaption.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // labelPoweredByForm1
             // 
-            this.labelPoweredByForm1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(53)))), ((int)(((byte)(44)))), ((int)(((byte)(57)))));
+            this.labelPoweredByForm1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(95)))), ((int)(((byte)(100)))), ((int)(((byte)(104)))));
             this.labelPoweredByForm1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.labelPoweredByForm1.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.labelPoweredByForm1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelPoweredByForm1.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.labelPoweredByForm1.Location = new System.Drawing.Point(0, 726);
+            this.labelPoweredByForm1.Location = new System.Drawing.Point(0, 669);
             this.labelPoweredByForm1.Name = "labelPoweredByForm1";
-            this.labelPoweredByForm1.Size = new System.Drawing.Size(1224, 40);
+            this.labelPoweredByForm1.Size = new System.Drawing.Size(1224, 25);
             this.labelPoweredByForm1.TabIndex = 35;
             this.labelPoweredByForm1.Text = "PoweredBy IDentiSQAN";
             this.labelPoweredByForm1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -317,7 +329,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(238)))), ((int)(((byte)(237)))));
-            this.ClientSize = new System.Drawing.Size(1224, 766);
+            this.ClientSize = new System.Drawing.Size(1224, 694);
             this.ControlBox = false;
             this.Controls.Add(this.labelPoweredByForm1);
             this.Controls.Add(this.labeMainCaption);
@@ -376,6 +388,7 @@
         private System.Windows.Forms.ToolStripMenuItem userFingerprintToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem patientFingerprintToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem loginToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem goBackToolStripMenuItem;
     }
 }
 

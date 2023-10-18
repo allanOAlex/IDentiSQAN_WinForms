@@ -27,33 +27,26 @@ namespace zk4500.Implementations.Services
         {
             try
             {
-                var userList = new List<FetchUserResponse>();
                 var response = await unitOfWork.UserRepository.SQLFindAll();
                 if (response.Any())
                 {
-                    foreach (var item in response)
+                    var userList = response.Select(item => new FetchUserResponse
                     {
-                        var listItem = new FetchUserResponse
-                        {
-                            Id = item.Id,
-                            Title = item.Title,
-                            Username = item.Username, 
-                            Password = item.Password,
-                            FirstName = item.FirstName,
-                            MiddleName = item.MiddleName,
-                            LastName = item.OtherNames,
-                            DepartmentId = item.DepartmentId,
-                            IsActive = item.IsActive,
-
-                        };
-
-                        userList.Add(listItem);
-                    }
+                        Id = item.Id,
+                        Title = item.Title,
+                        Username = item.Username,
+                        Password = item.Password,
+                        FirstName = item.FirstName,
+                        MiddleName = item.MiddleName,
+                        LastName = item.OtherNames,
+                        DepartmentId = item.DepartmentId,
+                        IsActive = item.IsActive
+                    }).ToList();
 
                     return userList;
                 }
 
-                return userList;
+                return new List<FetchUserResponse>(); 
             }
             catch (Exception)
             {
@@ -105,20 +98,24 @@ namespace zk4500.Implementations.Services
                     }
                     else
                     {
-                        user = new FetchUserResponse
+                        var foundUser = usersToFind.FirstOrDefault();
+                        if (foundUser != null)
                         {
-                            Id = usersToFind.FirstOrDefault().Id,
-                            Title = usersToFind.FirstOrDefault().Title,
-                            Username = usersToFind.FirstOrDefault().Username,
-                            Password = usersToFind.FirstOrDefault().Password,
-                            FirstName = usersToFind.FirstOrDefault().FirstName,
-                            MiddleName = usersToFind.FirstOrDefault().MiddleName,
-                            LastName = usersToFind.FirstOrDefault().OtherNames,
-                            DepartmentId = usersToFind.FirstOrDefault().DepartmentId,
-                            IsActive = usersToFind.FirstOrDefault().IsActive
-                        };
+                            user = new FetchUserResponse
+                            {
+                                Id = usersToFind.FirstOrDefault().Id,
+                                Title = usersToFind.FirstOrDefault().Title,
+                                Username = usersToFind.FirstOrDefault().Username,
+                                Password = usersToFind.FirstOrDefault().Password,
+                                FirstName = usersToFind.FirstOrDefault().FirstName,
+                                MiddleName = usersToFind.FirstOrDefault().MiddleName,
+                                LastName = usersToFind.FirstOrDefault().OtherNames,
+                                DepartmentId = usersToFind.FirstOrDefault().DepartmentId,
+                                IsActive = usersToFind.FirstOrDefault().IsActive
+                            };
 
-                        userList.Add(user);
+                            userList.Add(user);
+                        }
                     }
 
                     return new ApiResponse<FetchUserResponse> { Successful = true, Message = "", Datas = userList };
@@ -188,24 +185,30 @@ namespace zk4500.Implementations.Services
                     }
                     else
                     {
-                        user = new FetchUserResponse
+                        var foundUser = usersToFind.FirstOrDefault();
+                        if (foundUser != null) 
                         {
-                            Id = usersToFind.FirstOrDefault().Id,
-                            Title = usersToFind.FirstOrDefault().Title,
-                            Username = usersToFind.FirstOrDefault().Username,
-                            Password = usersToFind.FirstOrDefault().Password,
-                            FirstName = usersToFind.FirstOrDefault().FirstName,
-                            MiddleName = usersToFind.FirstOrDefault().MiddleName,
-                            LastName = usersToFind.FirstOrDefault().OtherNames,
-                            DepartmentId = usersToFind.FirstOrDefault().DepartmentId,
-                            IsActive = usersToFind.FirstOrDefault().IsActive,
-                            ImageTemplate = AppExtensions.UserImageTemplates.ContainsKey(usersToFind.FirstOrDefault().Id) ? AppExtensions.UserImageTemplates[usersToFind.FirstOrDefault().Id] : string.Empty
-                        };
+                            user = new FetchUserResponse
+                            {
+                                Id = usersToFind.FirstOrDefault().Id,
+                                //Id = foundUser != null ? foundUser.Id : 0,
+                                Title = usersToFind.FirstOrDefault().Title ?? string.Empty,
+                                Username = usersToFind.FirstOrDefault().Username ?? string.Empty,
+                                Password = usersToFind.FirstOrDefault().Password ?? string.Empty,
+                                FirstName = usersToFind.FirstOrDefault().FirstName ?? string.Empty,
+                                MiddleName = usersToFind.FirstOrDefault().MiddleName ?? string.Empty,
+                                LastName = usersToFind.FirstOrDefault().OtherNames ?? string.Empty,
+                                DepartmentId = usersToFind.FirstOrDefault().DepartmentId,
+                                //DepartmentId = foundUser != null ? foundUser.DepartmentId : 0,
+                                IsActive = foundUser != null ? foundUser.IsActive : 0,
+                                ImageTemplate = AppExtensions.UserImageTemplates.ContainsKey(usersToFind.FirstOrDefault().Id) ? AppExtensions.UserImageTemplates[usersToFind.FirstOrDefault().Id] : string.Empty
+                            };
 
-                        userList.Add(user);
+                            userList.Add(user);
+
+                            return new ApiResponse<FetchUserResponse> { Successful = true, Message = "", Datas = userList };
+                        }
                     }
-
-                    return new ApiResponse<FetchUserResponse> { Successful = true, Message = "", Datas = userList };
                 }
 
                 return new ApiResponse<FetchUserResponse> { Successful = false, Message = "User not found", Data = new FetchUserResponse() };
@@ -215,7 +218,6 @@ namespace zk4500.Implementations.Services
 
                 throw;
             }
-            throw new NotImplementedException();
         }
 
         public async Task<UpdateVerifiedResponse> SQLUpdateVerified(UpdateVerifiedRequest updateVerifiedRequest)

@@ -1,10 +1,11 @@
-﻿using System.Data.Common;
+﻿using MySql.Data.EntityFramework;
+using System.Data.Common;
 using System.Data.Entity;
 using zk4500.Entities;
 
 namespace zk4500.DataContext
 {
-    //[DbConfigurationType(typeof(MySqlEFConfiguration))]
+    [DbConfigurationType(typeof(MySqlEFConfiguration))]
     public class MyDBContext : DbContext
     {
         public MyDBContext() : base()
@@ -19,7 +20,6 @@ namespace zk4500.DataContext
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            //modelBuilder.Entity<FingerPrint>().MapToStoredProcedures();
         }
 
 
