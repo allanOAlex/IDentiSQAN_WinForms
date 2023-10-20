@@ -16,7 +16,9 @@ namespace zk4500.Abstractions.IServices
         Task<UpdateFingerPrintResponse> Update(UpdateFingerPrintRequest updateFingerPrintRequest);
         Task<UpdateFingerPrintResponse> Delete(UpdateFingerPrintRequest updateFingerPrintRequest);
         Task<VerifyFingerPrintResponse> Verify(VerifyFingerPrintRequest verifyFingerPrintRequest);
-        void InitializeFingerprintEngine();
+        
+        
+        
 
 
     }

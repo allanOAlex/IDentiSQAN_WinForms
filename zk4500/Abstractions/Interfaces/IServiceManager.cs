@@ -6,6 +6,7 @@ namespace zk4500.Abstractions.Interfaces
     {
         IFingerPrintService FingerPrintService { get; }
         IPatientService PatientService { get; }
+        IUserService UserService { get; }
 
 
     }

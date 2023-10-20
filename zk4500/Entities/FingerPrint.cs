@@ -11,6 +11,7 @@ namespace zk4500.Entities
         public string ImageTemplate { get; set; }
         public byte[] ImageData { get; set; }
         public string ImageType { get; set; }
+        public int EntityType { get; set; }
         public bool IsActive { get; set; }
 
 

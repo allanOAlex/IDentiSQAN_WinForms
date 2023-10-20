@@ -12,6 +12,7 @@ namespace zk4500.Implementations.Interfaces
     {
         public IFingerPrintRepository FingerPrintRepository { get; private set; }
         public IPatientRepository PatientRepository { get; private set; }
+        public IUserRepository UserRepository { get; private set; }
 
         private readonly IConfigurationService configurationService;
         private readonly MyDBContext myContext;
@@ -22,6 +23,7 @@ namespace zk4500.Implementations.Interfaces
             configurationService = ConfigurationService;
             FingerPrintRepository = new FingerPrintRepository(myContext, configurationService);
             PatientRepository = new PatientRepository(myContext, configurationService);
+            UserRepository = new UserRepository(configurationService);
         }
 
         public async Task CompleteAsync()
