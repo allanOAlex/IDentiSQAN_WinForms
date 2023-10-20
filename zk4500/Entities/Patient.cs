@@ -9,10 +9,10 @@ namespace zk4500.Entities
         public string MiddleName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }
-        public string Phone { get; set; }
+        public string PhoneNumber { get; set; }
         public string AlternativePhone { get; set; }
         public int GenderId { get; set; }
-        public string PatientTitle { get; set; }
+        public string Title { get; set; }
         public string PostalAddress { get; set; }
         public string PostalCode { get; set; }
         public string Location { get; set; }

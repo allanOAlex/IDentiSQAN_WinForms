@@ -9,8 +9,7 @@ using zk4500.Abstractions.IRepositories;
 using zk4500.Abstractions.IServices;
 using zk4500.DataContext;
 using zk4500.Entities;
-using zk4500.Shared.Requests;
-using zk4500.Shared.Responses;
+using zk4500.Extensions;
 
 namespace zk4500.Implementations.Repositories
 {
@@ -59,14 +58,13 @@ namespace zk4500.Implementations.Repositories
                 string sqlQuery = $"insert into tbl_finger_prints(" +
                     $"patientID, " +
                     $"fingerPrintTemplate, " +
-                    $"isActive" +
-                    $") " +
+                    $"entityType ) " +
                     $"values('" +
                     $"{entity.PatientId}', " +
                     $"'{entity.ImageTemplate}', " +
-                    $"'{entity.IsActive}')";
+                    $"{entity.EntityType}) ";
 
-                using (MySqlConnection connection = new MySqlConnection(await configurationService.GetConnectionString("Promed")))
+                using (MySqlConnection connection = new MySqlConnection(await configurationService.GetConnectionString(AppExtensions.GetConnection(AppExtensions.Environment))))
                 {
                     try
                     {
@@ -85,7 +83,7 @@ namespace zk4500.Implementations.Repositories
                             return entity;
                         }
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
                         throw;
                     }
@@ -118,7 +116,7 @@ namespace zk4500.Implementations.Repositories
 
                 List<FingerPrint> fingerPrintList = new List<FingerPrint>();
 
-                using (MySqlConnection connection = new MySqlConnection(await configurationService.GetConnectionString("Promed")))
+                using (MySqlConnection connection = new MySqlConnection(await configurationService.GetConnectionString(AppExtensions.GetConnection(AppExtensions.Environment))))
                 {
                     try
                     {
@@ -150,7 +148,7 @@ namespace zk4500.Implementations.Repositories
                             }
                         }
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
                         throw;
                     }

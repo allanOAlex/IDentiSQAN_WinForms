@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using zk4500.Abstractions.Interfaces;
 using zk4500.Abstractions.IServices;
 using zk4500.Entities;
+using zk4500.Exceptions;
 using zk4500.Shared.Requests;
 using zk4500.Shared.Responses;
 
@@ -19,7 +20,7 @@ namespace zk4500.Implementations.Services
             unitOfWork = UnitOfWork;
         }
 
-        public async Task<RegisterFingerPrintResponse> Create(RegisterFingerPrintRequest registerFingerPrintRequest)
+        public Task<RegisterFingerPrintResponse> Create(RegisterFingerPrintRequest registerFingerPrintRequest)
         {
             throw new NotImplementedException();
         }
@@ -48,21 +49,26 @@ namespace zk4500.Implementations.Services
         {
             try
             {
+                IEnumerable<FingerPrint> fingerPrints = await unitOfWork.FingerPrintRepository.SQLFindAll();
+                var existingFingerPrint = fingerPrints.Where(f => f.PatientId == registerFingerPrintRequest.Id);
+                if (existingFingerPrint.Any())
+                    throw new CreatingDuplicateException($"Duplicate Data : {registerFingerPrintRequest.Id}");
+
                 FingerPrint fingerPrint = new FingerPrint
                 {
-                    PatientId = registerFingerPrintRequest.PatientId,
+                    PatientId = registerFingerPrintRequest.Id,
                     ImageTemplate = registerFingerPrintRequest.Image,
-                    IsActive = registerFingerPrintRequest.IsActive
+                    EntityType = registerFingerPrintRequest.EntityType,
                 };
 
 
                 var response = await unitOfWork.FingerPrintRepository.SQLCreate(fingerPrint);
                 if (response.Id > 0)
                 {
-                    return new RegisterFingerPrintResponse { Id = response.Id, PatientId = response.PatientId, Image = response.ImageTemplate, IsActive = response.IsActive };
+                    return new RegisterFingerPrintResponse { Id = response.Id, PatientId = response.PatientId, Image = response.ImageTemplate, IsActive = Convert.ToInt32(response.IsActive) };
                 }
 
-                return new RegisterFingerPrintResponse { Id = response.Id, PatientId = response.PatientId, Image = response.ImageTemplate, IsActive = response.IsActive };
+                return new RegisterFingerPrintResponse { Id = response.Id, PatientId = response.PatientId, Image = response.ImageTemplate, IsActive = Convert.ToInt32(response.IsActive) };
             }
             catch (Exception)
             {
@@ -131,7 +137,7 @@ namespace zk4500.Implementations.Services
                                 Id = item.Id,
                                 PatientId = item.PatientId,
                                 ImageTemplate = item.ImageTemplate,
-                                IsActive = item.IsActive
+                                IsActive = Convert.ToInt32(item.IsActive)
 
                             };
 
@@ -161,19 +167,11 @@ namespace zk4500.Implementations.Services
             throw new NotImplementedException();
         }
 
-        public async Task<VerifyFingerPrintResponse> Verify(VerifyFingerPrintRequest verifyFingerPrintRequest)
+        public Task<VerifyFingerPrintResponse> Verify(VerifyFingerPrintRequest verifyFingerPrintRequest)
         {
-            try
-            {
-                
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-
             throw new NotImplementedException();
         }
+
+
     }
 }

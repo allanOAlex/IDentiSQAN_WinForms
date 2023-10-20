@@ -13,6 +13,10 @@ namespace zk4500.Abstractions.IServices
         Task<FetchPatientResponse> GetById(int Id);
         Task<ApiResponse<FetchPatientResponse>> FindByCondition(FetchPatientRequest fetchPatientRequest);
         Task<ApiResponse<FetchPatientResponse>> SQLFindByCondition(FetchPatientRequest fetchPatientRequest);
+        Task<List<FetchPatientForVerificationResponse>> SQLFetchPatientsForVerification();
+        Task<UpdateVerifiedResponse> SQLUpdateVerified(UpdateVerifiedRequest updateVerifiedRequest);
         Task<UpdatePatientResponse> Update(UpdatePatientRequest updatePatientRquest);
+
+
     }
 }

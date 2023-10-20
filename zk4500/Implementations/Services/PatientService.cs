@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using zk4500.Abstractions.Interfaces;
 using zk4500.Abstractions.IServices;
+using zk4500.Entities;
+using zk4500.Extensions;
 using zk4500.Shared.Dtos;
 using zk4500.Shared.Requests;
 using zk4500.Shared.Responses;
@@ -77,7 +78,7 @@ namespace zk4500.Implementations.Services
                                        LastName = patient.LastName,
                                        IPOPNumber = patient.IPOPNumber,
                                        IDNumber = patient.IDNumber,
-                                       PhoneNumber = patient.Phone
+                                       PhoneNumber = patient.PhoneNumber
 
                                    };
 
@@ -106,7 +107,7 @@ namespace zk4500.Implementations.Services
                     p.LastName.Equals(fetchPatientRequest.LastName) ||
                     p.IPOPNumber.Equals(fetchPatientRequest.IPOPNumber) ||
                     p.IDNumber.Equals(fetchPatientRequest.IDNumber) ||
-                    p.Phone.Equals(fetchPatientRequest.PhoneNumber)
+                    p.PhoneNumber.Equals(fetchPatientRequest.PhoneNumber)
                 
                 );
 
@@ -122,7 +123,7 @@ namespace zk4500.Implementations.Services
                             LastName = item.LastName,
                             IPOPNumber = item.IPOPNumber,
                             IDNumber = item.IDNumber,
-                            PhoneNumber = item.Phone
+                            PhoneNumber = item.PhoneNumber
 
 
                         };
@@ -163,12 +164,13 @@ namespace zk4500.Implementations.Services
                         var listItem = new FetchPatientResponse
                         {
                             Id = item.Id,
+                            Title = item.Title,
                             FirstName = item.FirstName,
                             MiddleName = item.MiddleName,
                             LastName = item.LastName,
                             IPOPNumber = item.IPOPNumber,
                             IDNumber = item.IDNumber,
-                            PhoneNumber = item.Phone,
+                            PhoneNumber = item.PhoneNumber,
 
 
 
@@ -194,63 +196,175 @@ namespace zk4500.Implementations.Services
             try
             {
                 var patienstList = new List<FetchPatientResponse>();
+                var patient = new FetchPatientResponse();
                 var patients = await unitOfWork.PatientRepository.SQLFindAll();
 
                 var patientsToFind = patients;
 
                 if (!string.IsNullOrEmpty(fetchPatientRequest.FirstName))
-                    patientsToFind = patients.Where(p => p.FirstName.Equals(fetchPatientRequest.FirstName));
+                    //patientsToFind = patients.Where(p => p.FirstName.Equals(fetchPatientRequest.FirstName, StringComparison.OrdinalIgnoreCase));
+                    patientsToFind = patients.Where(p =>p.FirstName.IndexOf(fetchPatientRequest.FirstName, StringComparison.OrdinalIgnoreCase) >= 0).DefaultIfEmpty();
 
                 if (!string.IsNullOrEmpty(fetchPatientRequest.MiddleName))
-                    patientsToFind = patients.Where(p => p.MiddleName.Equals(fetchPatientRequest.MiddleName));
+                    patientsToFind = patients.Where(p => p.MiddleName.IndexOf(fetchPatientRequest.MiddleName, StringComparison.OrdinalIgnoreCase) >= 0).DefaultIfEmpty();
 
                 if (!string.IsNullOrEmpty(fetchPatientRequest.LastName))
-                    patientsToFind = patients.Where(p => p.LastName.Equals(fetchPatientRequest.LastName));
+                    patientsToFind = patients.Where(p => p.LastName.IndexOf(fetchPatientRequest.LastName, StringComparison.OrdinalIgnoreCase) >= 0).DefaultIfEmpty();
 
                 if (!string.IsNullOrEmpty(fetchPatientRequest.IPOPNumber))
-                    patientsToFind = patients.Where(p => p.IPOPNumber.Equals(fetchPatientRequest.IPOPNumber));
+                    patientsToFind = patients.Where(p => p.IPOPNumber.IndexOf(fetchPatientRequest.IPOPNumber, StringComparison.OrdinalIgnoreCase) >= 0).DefaultIfEmpty();
 
                 if (!string.IsNullOrEmpty(fetchPatientRequest.IDNumber))
-                    patientsToFind = patients.Where(p => p.IDNumber.Equals(fetchPatientRequest.IDNumber));
+                    patientsToFind = patients.Where(p => p.IDNumber.IndexOf(fetchPatientRequest.IDNumber, StringComparison.OrdinalIgnoreCase) >= 0).DefaultIfEmpty();
 
                 if (!string.IsNullOrEmpty(fetchPatientRequest.PhoneNumber))
-                    patientsToFind = patients.Where(p => p.Phone.Equals(fetchPatientRequest.PhoneNumber));
+                    patientsToFind = patients.Where(p => p.PhoneNumber.IndexOf(fetchPatientRequest.PhoneNumber, StringComparison.OrdinalIgnoreCase) >= 0).DefaultIfEmpty();
 
-                if (patientsToFind.Any())
+                try
                 {
-                    foreach (var item in patientsToFind)
+                    if (patientsToFind.Any())
                     {
-                        var listItem = new FetchPatientResponse
+                        if (patientsToFind.Count() > 1)
                         {
-                            Id = item.Id,
-                            FirstName = item.FirstName,
-                            MiddleName = item.MiddleName,
-                            LastName = item.LastName,
-                            IPOPNumber = item.IPOPNumber,
-                            IDNumber = item.IDNumber,
-                            PhoneNumber = item.Phone
+                            foreach (var item in patientsToFind)
+                            {
+                                patient = new FetchPatientResponse
+                                {
+                                    Title = item.Title,
+                                    Id = item.Id,
+                                    FirstName = item.FirstName,
+                                    MiddleName = item.MiddleName,
+                                    LastName = item.LastName,
+                                    IPOPNumber = item.IPOPNumber,
+                                    IDNumber = item.IDNumber,
+                                    PhoneNumber = item.PhoneNumber,
+                                    ImageTemplate = item.FingerData
+                                };
 
+                                patienstList.Add(patient);
+                            }
+                        }
+                        else
+                        {
+                            var foundPatient = patientsToFind.FirstOrDefault();
+                            if (foundPatient != null)
+                            {
+                                patient = new FetchPatientResponse
+                                {
+                                    Title = patientsToFind.FirstOrDefault().Title,
+                                    Id = patientsToFind.FirstOrDefault().Id,
+                                    FirstName = patientsToFind.FirstOrDefault().FirstName,
+                                    MiddleName = patientsToFind.FirstOrDefault().MiddleName,
+                                    LastName = patientsToFind.FirstOrDefault().LastName,
+                                    IPOPNumber = patientsToFind.FirstOrDefault().IPOPNumber,
+                                    IDNumber = patientsToFind.FirstOrDefault().IDNumber,
+                                    PhoneNumber = patientsToFind.FirstOrDefault().PhoneNumber,
+                                    ImageTemplate = patientsToFind.FirstOrDefault().FingerData
+                                };
 
-                        };
+                                patienstList.Add(patient);
+                            }
+                        }
 
-                        patienstList.Add(listItem);
+                        if (patienstList.Count >= 1)
+                            return new ApiResponse<FetchPatientResponse> { Successful = true, Message = "", Datas = patienstList };
                     }
 
-                    if (patienstList.Count > 1)
-                        return new ApiResponse<FetchPatientResponse> { Successful = true, Message = "", Datas = patienstList };
+                    return new ApiResponse<FetchPatientResponse> { Successful = false, Message = "No records found", Data = new FetchPatientResponse() };
+                }
+                catch (Exception)
+                {
 
-                    return new ApiResponse<FetchPatientResponse> { Successful = true, Message = "", Datas = patienstList };
+                    throw;
                 }
 
-                return new ApiResponse<FetchPatientResponse> { Successful = false, Message = "No records found", Data = new FetchPatientResponse() };
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message.ToString());
                 throw;
             }
+
         }
 
+        public async Task<UpdateVerifiedResponse> SQLUpdateVerified(UpdateVerifiedRequest updateVerifiedRequest)
+        {
+            try
+            {
+                AppExtensions.BitValue = updateVerifiedRequest.IsFingerVerified;
+                AppExtensions.CheckInTimeStamp = DateTimeOffset.Now.ToString("yyyy-MM-dd HH:mm:ss zzz");
+                Patient patient = new Patient
+                {
+                    Id = updateVerifiedRequest.CheckInPatientId,
+                };
+
+                var response = await unitOfWork.PatientRepository.SQLUpdateVerified(patient);
+                if (AppExtensions.UpdateQueryResult <= 0)
+                {
+                    return new UpdateVerifiedResponse
+                    {
+                        Id = AppExtensions.RowId,
+                        CheckInPatientId = response.Id,
+                        IsFingerVerified = false
+
+                    };
+                }
+
+                return new UpdateVerifiedResponse
+                {
+                    Id = AppExtensions.RowId,
+                    CheckInPatientId = response.Id,
+                    IsFingerVerified = true
+
+                };
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+        }
+
+        public async Task<List<FetchPatientForVerificationResponse>> SQLFetchPatientsForVerification()
+        {
+            try
+            {
+                var patientList = new List<FetchPatientForVerificationResponse>();
+                var response = await unitOfWork.PatientRepository.SQLFetchPatientsForVerification();
+                if (response.Any())
+                {
+                    foreach (var item in response)
+                    {
+                        var listItem = new FetchPatientForVerificationResponse
+                        {
+                            Id = item.Id,
+                            CheckInID = item.PatientId,
+                            Title = item.Title,
+                            FirstName = item.FirstName,
+                            MiddleName = item.MiddleName,
+                            LastName = item.LastName,
+                            IPOPNumber = item.IPOPNumber,
+                            PhoneNumber = item.PhoneNumber,
+                            ServicePointId = item.ServicePointId,
+                            ImageTemplate = item.ImageTemplate,
+                            IsFingerVerified = item.IsFingerVerified
+
+                        };
+
+                        patientList.Add(listItem);
+                    }
+
+                    return patientList;
+                }
+
+                return patientList;
+        }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
 
 
     }

@@ -8,6 +8,7 @@ namespace zk4500.Implementations.Interfaces
     {
         public IFingerPrintService FingerPrintService { get; private set; }
         public IPatientService PatientService { get; private set; }
+        public IUserService UserService { get; private set; }
 
         private readonly IUnitOfWork unitOfWork;
 
@@ -17,6 +18,7 @@ namespace zk4500.Implementations.Interfaces
             unitOfWork = UnitOfWork;
             FingerPrintService = new FingerPrintService(unitOfWork);
             PatientService = new PatientService(unitOfWork);
+            UserService =  new UserService(unitOfWork);
         }
 
         

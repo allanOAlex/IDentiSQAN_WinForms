@@ -7,6 +7,7 @@ namespace zk4500.Abstractions.Interfaces
     {
         IFingerPrintRepository FingerPrintRepository { get; }
         IPatientRepository PatientRepository { get; }
+        IUserRepository UserRepository { get; }
 
         Task CompleteAsync();
 
