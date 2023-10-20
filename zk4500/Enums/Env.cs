@@ -3,6 +3,7 @@
     internal enum Env
     {
         Dev,
-        Prod
+        Vial,
+        Vet
     }
 }

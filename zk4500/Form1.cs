@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -35,6 +36,7 @@ namespace zk4500
         FetchPatientRequest fetchPatientRequest = new FetchPatientRequest();
         List<FetchPatientResponse> fetchPatientsResponse = new List<FetchPatientResponse>();
 
+        FetchUserRequest fetchUserRequest = new FetchUserRequest();
         FetchUserResponse fetchUserResponse = new FetchUserResponse();
         List<FetchUserResponse> fetchUsersResponse = new List<FetchUserResponse>();
 
@@ -83,128 +85,13 @@ namespace zk4500
 
             goBackToolStripMenuItemForm1.Alignment = ToolStripItemAlignment.Right;
             exitToolStripMenuItemForm1.Alignment = ToolStripItemAlignment.Right;
-            
 
             HideFormElements();
             //await PopulateGrid();
 
-            await browserManager.Initialize();
+            //await browserManager.Initialize();
         }
 
-        private async Task PopulateGrid()
-        {
-            dynamic gridData = new object();
-            try
-            {
-                if (AppExtensions.DepartmentId == 14)
-                {
-                    switch (AppExtensions.GridRefreshed)
-                    {
-                        case 1:
-                            btnRegister.Enabled = true; break;
-                        default:
-                            break;
-                    }
-
-                    AppExtensions.CaptureAction = 1;
-                    btnVerify.Visible = false;
-                    btnVerify.Enabled = false;
-
-                    switch (AppExtensions.IsPatient)
-                    {
-                        case true:
-                            fetchPatientsResponse = await serviceManager.PatientService.SQLFindAll();
-                            gridData = fetchPatientsResponse;
-                            break;
-
-                        case false:
-                            fetchUsersResponse = await serviceManager.UserService.SQLFindAll();
-                            gridData = fetchUsersResponse;
-                            break;
-
-                        default:
-                            break;
-                    }
-
-                }
-                else
-                {
-                    switch (AppExtensions.GridRefreshed)
-                    {
-                        case 1:
-                            btnVerify.Enabled = true; break;
-                        default:
-                            break;
-                    }
-
-                    AppExtensions.CaptureAction = 2;
-
-                    patientsForVerificationResponseList = await serviceManager.PatientService.SQLFetchPatientsForVerification();
-
-                    gridData = patientsForVerificationResponseList;
-
-                    AppExtensions.PatientsForVerificationList = patientsForVerificationResponseList;
-                }
-
-                if (gridData.Count > 0)
-                {
-                    UpdateGrid(gridData);
-                    var selectedPatients = GetSelectedPatients();
-                    if (selectedPatients.Any())
-                    {
-                        if (selectedPatients.Count > 1)
-                        {
-                            ShowHintInfo($"Capturing multiple fingerprints is not allowed. Please select one item");
-                            return;
-                        }
-                        else
-                        {
-                            foreach (var item in selectedPatients)
-                            {
-                                labelMessage.Visible = true;
-                                labelMessage.Text = string.Empty;
-                                string numberText = $"- IP/OP Number : {item.IPOPNumber}";
-
-                                switch (AppExtensions.IsPatient)
-                                {
-                                    case false:
-                                        numberText = string.Empty;
-                                        break;
-
-                                    default:
-                                        break;
-                                }
-
-                                switch (AppExtensions.CaptureAction)
-                                {
-                                    case 1:
-                                        ShowCustomMessage($"Capture fingerprint for {item.FirstName} {item.MiddleName} {item.LastName} {numberText}");
-                                        ShowHintInfo(string.Empty);
-                                        break;
-
-                                    default:
-                                        ShowCustomMessage($"Verifying fingerprint for {item.FirstName} {item.MiddleName} {item.LastName} {numberText}");
-                                        ShowHintInfo(string.Empty);
-                                        break;
-                                }
-
-                            }
-
-                        }
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("No records found.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-        }
 
         private void InitialAxZkfp()
         {
@@ -589,18 +476,123 @@ namespace zk4500
         private async void btnExit_Click(object sender, EventArgs e)
         {
             fetchPatientRequest = new FetchPatientRequest();
+            fetchUserRequest = new FetchUserRequest();
+
             searchRichTextBox.Clear();
             comboBoxFilter.SelectedIndex = -1;
+
             await PopulateGrid();
+
             AppExtensions.GridRefreshed = 1;
 
         }
 
-        public void UpdateGrid(IEnumerable<dynamic> fetchPatientResponse)
+        private async Task PopulateGrid()
+        {
+            dynamic gridData = new object();
+            try
+            {
+                if (AppExtensions.DepartmentId == 14)
+                {
+                    AppExtensions.CaptureAction = 1;
+                    btnVerify.Visible = false;
+                    btnVerify.Enabled = false;
+
+                    switch (AppExtensions.IsPatient)
+                    {
+                        case true:
+                            fetchPatientsResponse = await serviceManager.PatientService.SQLFindAll();
+                            gridData = fetchPatientsResponse;
+                            break;
+
+                        case false:
+                            fetchUsersResponse = await serviceManager.UserService.SQLFindAll();
+                            gridData = fetchUsersResponse;
+                            break;
+
+                        default:
+                            break;
+                    }
+
+                }
+                else
+                {
+                    AppExtensions.CaptureAction = 2;
+
+                    patientsForVerificationResponseList = await serviceManager.PatientService.SQLFetchPatientsForVerification();
+
+                    gridData = patientsForVerificationResponseList;
+
+                    AppExtensions.PatientsForVerificationList = patientsForVerificationResponseList;
+                }
+
+                if (gridData.Count > 0)
+                {
+                    UpdateGrid(gridData);
+
+                    var selectedPatients = GetSelectedPatients();
+                    if (selectedPatients.Any())
+                    {
+                        if (selectedPatients.Count > 1)
+                        {
+                            ShowHintInfo($"Capturing multiple fingerprints is not allowed. Please select one item");
+                            return;
+                        }
+                        else
+                        {
+                            foreach (var item in selectedPatients)
+                            {
+                                labelMessage.Visible = true;
+                                labelMessage.Text = string.Empty;
+
+                                string numberText = $"- IP/OP Number : {item.IPOPNumber}";
+
+                                switch (AppExtensions.IsPatient)
+                                {
+                                    case false:
+                                        numberText = string.Empty;
+                                        break;
+
+                                    default:
+                                        break;
+                                }
+
+                                switch (AppExtensions.CaptureAction)
+                                {
+                                    case 1:
+                                        ShowCustomMessage($"Capture fingerprint for {item.FirstName} {item.MiddleName} {item.LastName} {numberText}");
+                                        ShowHintInfo(string.Empty);
+                                        break;
+
+                                    default:
+                                        ShowCustomMessage($"Verifying fingerprint for {item.FirstName} {item.MiddleName} {item.LastName} {numberText}");
+                                        ShowHintInfo(string.Empty);
+                                        break;
+                                }
+
+                            }
+
+                        }
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("No records found.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public void UpdateGrid(IEnumerable<dynamic> response)
         {
             try
             {
-                BindingList<dynamic> bindingList = new BindingList<dynamic>(fetchPatientResponse.ToList());
+                BindingList<dynamic> bindingList = new BindingList<dynamic>(response.ToList());
                 registeredPatientsGridView.DataSource = bindingList;
 
                 DataGridViewCellStyle headerStyle = new DataGridViewCellStyle();
@@ -615,6 +607,10 @@ namespace zk4500
                 registeredPatientsGridView.CellMouseDown += DataGridViewCellMouseDownEventHandler;
 
                 AppExtensions.ManageGridColumns(registeredPatientsGridView);
+                if (AppExtensions.ShouldAutoSizeColumns(registeredPatientsGridView))
+                {
+                    registeredPatientsGridView.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
+                }
             }
             catch (Exception)
             {
@@ -1049,10 +1045,6 @@ namespace zk4500
                         default:
                             break;
                     }
-
-                    //newGridData = await FetchData();
-
-
                 }
                 else
                 {
@@ -1065,6 +1057,7 @@ namespace zk4500
                 {
                     ShowHintInfo("Kudoz!! Nothing on your list!");
                 }
+
                 UpdateGrid(gridData);
 
             }
@@ -1110,6 +1103,7 @@ namespace zk4500
             try
             {
                 filterOptions = new string[] { "Username", "Name", "Phone Number" };
+                comboBoxFilter.Items.Clear();
                 comboBoxFilter.Items.AddRange(filterOptions);
                 AppExtensions.IsPatient = false;
                 ShowFormElements();
@@ -1130,6 +1124,7 @@ namespace zk4500
             try
             {
                 filterOptions = new string[] { "Patient ID", "First Name", "Middle Name", "Last Name", "IP/OP Number", "Phone Number" };
+                comboBoxFilter.Items.Clear();
                 comboBoxFilter.Items.AddRange(filterOptions);
                 AppExtensions.IsPatient = true;
                 ShowFormElements();
@@ -1190,8 +1185,20 @@ namespace zk4500
                     }
                 }
 
-                this.BackgroundImage = Image.FromFile($"D:\\Documents\\Photos\\DevRelated\\bg8.jpeg");
-                this.BackgroundImageLayout = ImageLayout.Stretch;
+                string imagePath = @"C:\zk4500\AppImages\bg8.jpeg";
+
+                //BackgroundImage = Image.FromFile($"D:\\Documents\\Photos\\DevRelated\\bg8.jpeg");
+
+                if (File.Exists(imagePath))
+                {
+                    BackgroundImage = Image.FromFile(imagePath);
+                    BackgroundImageLayout = ImageLayout.Stretch;
+                }
+                else
+                {
+                    BackgroundImage = null;
+                }
+
                 labelPoweredByForm1.Visible = true;
             }
             catch (Exception)

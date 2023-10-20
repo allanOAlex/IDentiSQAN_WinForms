@@ -1,4 +1,4 @@
-﻿using Microsoft.Playwright;
+﻿//using Microsoft.Playwright;
 using Newtonsoft.Json;
 using System;
 using System.IO;
@@ -175,24 +175,24 @@ namespace zk4500.ApiClient
             }
         }
 
-        private static async Task InvokeBrowser(string fullUrl)
-        {
-            using (var playwright = await Playwright.CreateAsync())
-            {
-                var browser = await playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions
-                {
-                    Headless = false
-                });
+        //private static async Task InvokeBrowser(string fullUrl)
+        //{
+        //    using (var playwright = await Playwright.CreateAsync())
+        //    {
+        //        var browser = await playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions
+        //        {
+        //            Headless = false
+        //        });
 
-                var context = await browser.NewContextAsync();
-                var page = await context.NewPageAsync();
-                await page.GotoAsync($"{fullUrl}", new PageGotoOptions
-                {
-                    WaitUntil = WaitUntilState.Commit,
-                    Timeout = 0
-                });
-            }
-        }
+        //        var context = await browser.NewContextAsync();
+        //        var page = await context.NewPageAsync();
+        //        await page.GotoAsync($"{fullUrl}", new PageGotoOptions
+        //        {
+        //            WaitUntil = WaitUntilState.Commit,
+        //            Timeout = 0
+        //        });
+        //    }
+        //}
 
 
 

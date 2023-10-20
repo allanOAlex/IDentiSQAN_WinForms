@@ -64,7 +64,7 @@
             this.btnVerify.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnVerify.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnVerify.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnVerify.Location = new System.Drawing.Point(526, 555);
+            this.btnVerify.Location = new System.Drawing.Point(478, 555);
             this.btnVerify.Margin = new System.Windows.Forms.Padding(4);
             this.btnVerify.Name = "btnVerify";
             this.btnVerify.Size = new System.Drawing.Size(97, 33);
@@ -78,7 +78,7 @@
             this.prompt.AutoSize = true;
             this.prompt.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.prompt.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(19)))), ((int)(((byte)(25)))), ((int)(((byte)(23)))));
-            this.prompt.Location = new System.Drawing.Point(416, 407);
+            this.prompt.Location = new System.Drawing.Point(368, 403);
             this.prompt.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.prompt.Name = "prompt";
             this.prompt.Size = new System.Drawing.Size(93, 24);
@@ -103,7 +103,7 @@
             this.btnRegister.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnRegister.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnRegister.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(19)))), ((int)(((byte)(25)))), ((int)(((byte)(23)))));
-            this.btnRegister.Location = new System.Drawing.Point(420, 555);
+            this.btnRegister.Location = new System.Drawing.Point(372, 555);
             this.btnRegister.Margin = new System.Windows.Forms.Padding(4);
             this.btnRegister.Name = "btnRegister";
             this.btnRegister.Size = new System.Drawing.Size(98, 33);
@@ -118,7 +118,7 @@
             this.btnClear.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnClear.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnClear.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnClear.Location = new System.Drawing.Point(420, 610);
+            this.btnClear.Location = new System.Drawing.Point(372, 610);
             this.btnClear.Margin = new System.Windows.Forms.Padding(4);
             this.btnClear.Name = "btnClear";
             this.btnClear.Size = new System.Drawing.Size(203, 35);
@@ -135,7 +135,7 @@
             this.registeredPatientsGridView.Name = "registeredPatientsGridView";
             this.registeredPatientsGridView.RowHeadersWidth = 51;
             this.registeredPatientsGridView.RowTemplate.Height = 24;
-            this.registeredPatientsGridView.Size = new System.Drawing.Size(1144, 190);
+            this.registeredPatientsGridView.Size = new System.Drawing.Size(839, 190);
             this.registeredPatientsGridView.TabIndex = 24;
             // 
             // labelFilterText
@@ -154,14 +154,14 @@
             this.comboBoxFilter.FormattingEnabled = true;
             this.comboBoxFilter.Location = new System.Drawing.Point(161, 92);
             this.comboBoxFilter.Name = "comboBoxFilter";
-            this.comboBoxFilter.Size = new System.Drawing.Size(222, 23);
+            this.comboBoxFilter.Size = new System.Drawing.Size(183, 23);
             this.comboBoxFilter.TabIndex = 26;
             // 
             // searchRichTextBox
             // 
-            this.searchRichTextBox.Location = new System.Drawing.Point(401, 93);
+            this.searchRichTextBox.Location = new System.Drawing.Point(372, 93);
             this.searchRichTextBox.Name = "searchRichTextBox";
-            this.searchRichTextBox.Size = new System.Drawing.Size(274, 22);
+            this.searchRichTextBox.Size = new System.Drawing.Size(221, 22);
             this.searchRichTextBox.TabIndex = 27;
             // 
             // btnSearch
@@ -170,7 +170,7 @@
             this.btnSearch.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSearch.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(19)))), ((int)(((byte)(25)))), ((int)(((byte)(23)))));
-            this.btnSearch.Location = new System.Drawing.Point(749, 92);
+            this.btnSearch.Location = new System.Drawing.Point(630, 92);
             this.btnSearch.Name = "btnSearch";
             this.btnSearch.Size = new System.Drawing.Size(85, 33);
             this.btnSearch.TabIndex = 28;
@@ -184,7 +184,7 @@
             this.btnExit.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnExit.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnExit.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnExit.Location = new System.Drawing.Point(1098, 93);
+            this.btnExit.Location = new System.Drawing.Point(793, 93);
             this.btnExit.Name = "btnExit";
             this.btnExit.Size = new System.Drawing.Size(85, 32);
             this.btnExit.TabIndex = 29;
@@ -208,7 +208,7 @@
             this.labelMessage.AutoSize = true;
             this.labelMessage.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelMessage.ForeColor = System.Drawing.Color.Sienna;
-            this.labelMessage.Location = new System.Drawing.Point(416, 362);
+            this.labelMessage.Location = new System.Drawing.Point(368, 362);
             this.labelMessage.Name = "labelMessage";
             this.labelMessage.Size = new System.Drawing.Size(102, 20);
             this.labelMessage.TabIndex = 31;
@@ -227,12 +227,13 @@
             this.loginToolStripMenuItem});
             this.menuStripForm1.Location = new System.Drawing.Point(0, 0);
             this.menuStripForm1.Name = "menuStripForm1";
-            this.menuStripForm1.Size = new System.Drawing.Size(1224, 36);
+            this.menuStripForm1.Size = new System.Drawing.Size(916, 36);
             this.menuStripForm1.TabIndex = 33;
             this.menuStripForm1.Text = "menuStrip1";
             // 
             // exitToolStripMenuItemForm1
             // 
+            this.exitToolStripMenuItemForm1.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.exitToolStripMenuItemForm1.Font = new System.Drawing.Font("Arial", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.exitToolStripMenuItemForm1.ForeColor = System.Drawing.Color.Linen;
             this.exitToolStripMenuItemForm1.Name = "exitToolStripMenuItemForm1";
@@ -242,6 +243,7 @@
             // 
             // goBackToolStripMenuItemForm1
             // 
+            this.goBackToolStripMenuItemForm1.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.goBackToolStripMenuItemForm1.Font = new System.Drawing.Font("Arial", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.goBackToolStripMenuItemForm1.ForeColor = System.Drawing.Color.Linen;
             this.goBackToolStripMenuItemForm1.Name = "goBackToolStripMenuItemForm1";
@@ -305,7 +307,7 @@
             this.labeMainCaption.ForeColor = System.Drawing.Color.Linen;
             this.labeMainCaption.Location = new System.Drawing.Point(0, 36);
             this.labeMainCaption.Name = "labeMainCaption";
-            this.labeMainCaption.Size = new System.Drawing.Size(1224, 33);
+            this.labeMainCaption.Size = new System.Drawing.Size(916, 33);
             this.labeMainCaption.TabIndex = 34;
             this.labeMainCaption.Text = "Pro-Med Biometrics";
             this.labeMainCaption.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -319,7 +321,7 @@
             this.labelPoweredByForm1.ForeColor = System.Drawing.SystemColors.ButtonFace;
             this.labelPoweredByForm1.Location = new System.Drawing.Point(0, 669);
             this.labelPoweredByForm1.Name = "labelPoweredByForm1";
-            this.labelPoweredByForm1.Size = new System.Drawing.Size(1224, 25);
+            this.labelPoweredByForm1.Size = new System.Drawing.Size(916, 25);
             this.labelPoweredByForm1.TabIndex = 35;
             this.labelPoweredByForm1.Text = "PoweredBy IDentiSQAN";
             this.labelPoweredByForm1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -329,7 +331,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(238)))), ((int)(((byte)(237)))));
-            this.ClientSize = new System.Drawing.Size(1224, 694);
+            this.ClientSize = new System.Drawing.Size(916, 694);
             this.ControlBox = false;
             this.Controls.Add(this.labelPoweredByForm1);
             this.Controls.Add(this.labeMainCaption);

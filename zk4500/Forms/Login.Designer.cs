@@ -31,7 +31,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Login));
             this.textBoxUsername = new System.Windows.Forms.TextBox();
             this.labelUsername = new System.Windows.Forms.Label();
-            this.labelPassword = new System.Windows.Forms.Label();
             this.buttonLogin = new System.Windows.Forms.Button();
             this.fingerBox = new System.Windows.Forms.PictureBox();
             this.labelPromt = new System.Windows.Forms.Label();
@@ -41,13 +40,14 @@
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.goBackToolStripMenuItemLogin = new System.Windows.Forms.ToolStripMenuItem();
             this.maskedTextBoxPassword = new System.Windows.Forms.MaskedTextBox();
+            this.labelPassword = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.fingerBox)).BeginInit();
             this.menuStripLogin.SuspendLayout();
             this.SuspendLayout();
             // 
             // textBoxUsername
             // 
-            this.textBoxUsername.Location = new System.Drawing.Point(170, 136);
+            this.textBoxUsername.Location = new System.Drawing.Point(74, 136);
             this.textBoxUsername.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.textBoxUsername.Name = "textBoxUsername";
             this.textBoxUsername.Size = new System.Drawing.Size(221, 28);
@@ -59,26 +59,12 @@
             this.labelUsername.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.labelUsername.Font = new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelUsername.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(44)))), ((int)(((byte)(57)))));
-            this.labelUsername.Location = new System.Drawing.Point(166, 101);
+            this.labelUsername.Location = new System.Drawing.Point(70, 101);
             this.labelUsername.Name = "labelUsername";
             this.labelUsername.Size = new System.Drawing.Size(113, 31);
             this.labelUsername.TabIndex = 3;
             this.labelUsername.Text = "Username";
             this.labelUsername.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // labelPassword
-            // 
-            this.labelPassword.BackColor = System.Drawing.Color.Transparent;
-            this.labelPassword.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.labelPassword.Font = new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelPassword.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(44)))), ((int)(((byte)(57)))));
-            this.labelPassword.Location = new System.Drawing.Point(166, 189);
-            this.labelPassword.Name = "labelPassword";
-            this.labelPassword.Size = new System.Drawing.Size(113, 33);
-            this.labelPassword.TabIndex = 5;
-            this.labelPassword.Text = "Password";
-            this.labelPassword.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.labelPassword.Click += new System.EventHandler(this.labelPassword_Click);
             // 
             // buttonLogin
             // 
@@ -88,7 +74,7 @@
             this.buttonLogin.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.buttonLogin.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.buttonLogin.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.buttonLogin.Location = new System.Drawing.Point(170, 345);
+            this.buttonLogin.Location = new System.Drawing.Point(73, 345);
             this.buttonLogin.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.buttonLogin.Name = "buttonLogin";
             this.buttonLogin.Size = new System.Drawing.Size(220, 47);
@@ -100,7 +86,7 @@
             // fingerBox
             // 
             this.fingerBox.BackColor = System.Drawing.SystemColors.Window;
-            this.fingerBox.Location = new System.Drawing.Point(533, 101);
+            this.fingerBox.Location = new System.Drawing.Point(391, 101);
             this.fingerBox.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.fingerBox.Name = "fingerBox";
             this.fingerBox.Size = new System.Drawing.Size(307, 291);
@@ -130,7 +116,7 @@
             this.labelLoginCaption.ForeColor = System.Drawing.Color.Linen;
             this.labelLoginCaption.Location = new System.Drawing.Point(0, 35);
             this.labelLoginCaption.Name = "labelLoginCaption";
-            this.labelLoginCaption.Size = new System.Drawing.Size(1016, 32);
+            this.labelLoginCaption.Size = new System.Drawing.Size(789, 32);
             this.labelLoginCaption.TabIndex = 8;
             this.labelLoginCaption.Text = "LoginCaption";
             this.labelLoginCaption.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -145,7 +131,7 @@
             this.labelPoweredBy.ForeColor = System.Drawing.SystemColors.ButtonFace;
             this.labelPoweredBy.Location = new System.Drawing.Point(0, 487);
             this.labelPoweredBy.Name = "labelPoweredBy";
-            this.labelPoweredBy.Size = new System.Drawing.Size(1016, 27);
+            this.labelPoweredBy.Size = new System.Drawing.Size(789, 27);
             this.labelPoweredBy.TabIndex = 10;
             this.labelPoweredBy.Text = "PoweredBy IDentiSQAN";
             this.labelPoweredBy.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -160,12 +146,13 @@
             this.goBackToolStripMenuItemLogin});
             this.menuStripLogin.Location = new System.Drawing.Point(0, 0);
             this.menuStripLogin.Name = "menuStripLogin";
-            this.menuStripLogin.Size = new System.Drawing.Size(1016, 35);
+            this.menuStripLogin.Size = new System.Drawing.Size(789, 35);
             this.menuStripLogin.TabIndex = 11;
             this.menuStripLogin.Text = "menuStrip1";
             // 
             // exitToolStripMenuItem
             // 
+            this.exitToolStripMenuItem.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.exitToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(66)))), ((int)(((byte)(74)))));
             this.exitToolStripMenuItem.Font = new System.Drawing.Font("Arial", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.exitToolStripMenuItem.ForeColor = System.Drawing.Color.Linen;
@@ -186,11 +173,25 @@
             // 
             // maskedTextBoxPassword
             // 
-            this.maskedTextBoxPassword.Location = new System.Drawing.Point(168, 225);
+            this.maskedTextBoxPassword.Location = new System.Drawing.Point(74, 225);
             this.maskedTextBoxPassword.Name = "maskedTextBoxPassword";
             this.maskedTextBoxPassword.Size = new System.Drawing.Size(219, 28);
             this.maskedTextBoxPassword.TabIndex = 12;
             this.maskedTextBoxPassword.UseSystemPasswordChar = true;
+            // 
+            // labelPassword
+            // 
+            this.labelPassword.BackColor = System.Drawing.Color.Transparent;
+            this.labelPassword.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.labelPassword.Font = new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelPassword.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(44)))), ((int)(((byte)(57)))));
+            this.labelPassword.Location = new System.Drawing.Point(70, 189);
+            this.labelPassword.Name = "labelPassword";
+            this.labelPassword.Size = new System.Drawing.Size(113, 33);
+            this.labelPassword.TabIndex = 5;
+            this.labelPassword.Text = "Password";
+            this.labelPassword.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.labelPassword.Click += new System.EventHandler(this.labelPassword_Click);
             // 
             // Login
             // 
@@ -199,7 +200,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(238)))), ((int)(((byte)(237)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(1016, 514);
+            this.ClientSize = new System.Drawing.Size(789, 514);
             this.Controls.Add(this.maskedTextBoxPassword);
             this.Controls.Add(this.labelPoweredBy);
             this.Controls.Add(this.labelLoginCaption);
@@ -230,7 +231,6 @@
         #endregion
         private System.Windows.Forms.TextBox textBoxUsername;
         private System.Windows.Forms.Label labelUsername;
-        private System.Windows.Forms.Label labelPassword;
         private System.Windows.Forms.Button buttonLogin;
         private System.Windows.Forms.PictureBox fingerBox;
         private System.Windows.Forms.Label labelPromt;
@@ -240,5 +240,6 @@
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
         private System.Windows.Forms.MaskedTextBox maskedTextBoxPassword;
         private System.Windows.Forms.ToolStripMenuItem goBackToolStripMenuItemLogin;
+        private System.Windows.Forms.Label labelPassword;
     }
 }

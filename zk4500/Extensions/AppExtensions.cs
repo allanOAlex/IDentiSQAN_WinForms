@@ -7,7 +7,6 @@ using System.Windows.Forms;
 using zk4500.Abstractions.Interfaces;
 using zk4500.ApiClient;
 using zk4500.Enums;
-using zk4500.Forms;
 using zk4500.Shared.Requests;
 using zk4500.Shared.Responses;
 
@@ -50,12 +49,17 @@ namespace zk4500.Extensions
 
         public static string GetConnection(int Id)
         {
-            if (Id != 0)
+            if (Id == 0)
             {
-                return Connection = "promed_bwh";
+                return Connection = "Promed";
             }
 
-            return Connection = "Promed";
+            if (Id == 1)
+            {
+                return Connection = "Vial";
+            }
+
+            return Connection = "Vet";
         }
 
         public static string GetDB(int Id)
@@ -91,33 +95,84 @@ namespace zk4500.Extensions
                     "ColumnName2"
                 };
 
-                List<string> hiddenColumns = new List<string>
-                {
-                    "Id",
-                    "UserId",
-                    "Password",
-                    "ImageTemplate"
-                };
+                List<string> hiddenColumns = new List<string>();
 
+                if (IsPatient == false)
+                {
+                    hiddenColumns.AddRange(new string[]
+                    {
+                        "Id",
+                        "UserId",
+                        "Password",
+                        "ImageTemplate",
+                        "IPOPNumber",
+                        "IsActive",
+                        "IDNumber"
+                    });
+                }
+                else
+                {
+                    hiddenColumns.AddRange(new string[]
+                    {
+                        "Id",
+                        "UserId",
+                        "Password",
+                        "ImageTemplate",
+                        "DepartmentId",
+                        "IsActive"
+                    });
+                }
+
+                // First, make all columns visible
                 foreach (DataGridViewColumn column in registeredPatientsGridView.Columns)
                 {
-                    if (readOnlyColumns.Contains(column.Name))
-                    {
-                        column.ReadOnly = true;
-                    }
+                    column.Visible = true;
+                }
 
-                    if (hiddenColumns.Contains(column.Name))
+                // Then, apply the hidden columns list
+                foreach (string columnName in hiddenColumns)
+                {
+                    if (registeredPatientsGridView.Columns.Contains(columnName))
                     {
-                        column.Visible = false;
+                        registeredPatientsGridView.Columns[columnName].Visible = false;
                     }
                 }
+
+                // Make read-only columns read-only
+                foreach (string columnName in readOnlyColumns)
+                {
+                    if (registeredPatientsGridView.Columns.Contains(columnName))
+                    {
+                        registeredPatientsGridView.Columns[columnName].ReadOnly = true;
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public static bool ShouldAutoSizeColumns(DataGridView registeredPatientsGridView)
+        {
+            try
+            {
+                int totalColumnWidth = 0;
+                foreach (DataGridViewColumn column in registeredPatientsGridView.Columns)
+                {
+                    if (column.Visible)
+                    {
+                        totalColumnWidth += column.Width;
+                    }
+                }
+
+                return totalColumnWidth < registeredPatientsGridView.Width;
             }
             catch (Exception)
             {
 
                 throw;
             }
-
         }
 
         public static string HashPassword(this string password)

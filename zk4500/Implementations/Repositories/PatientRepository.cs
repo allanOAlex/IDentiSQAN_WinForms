@@ -305,6 +305,7 @@ namespace zk4500.Implementations.Repositories
                         $"WHERE TPC.isFingerVerified = 0 AND TPC.checkinToDepartmentServicePointID = {AppExtensions.DepartmentId}";
 
                         break;
+
                     default:
                         break;
                 }

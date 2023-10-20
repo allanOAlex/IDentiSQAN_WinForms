@@ -1,11 +1,11 @@
-﻿using MySql.Data.EntityFramework;
+﻿//using MySql.Data.MySqlClient;
 using System.Data.Common;
 using System.Data.Entity;
 using zk4500.Entities;
 
 namespace zk4500.DataContext
 {
-    [DbConfigurationType(typeof(MySqlEFConfiguration))]
+    //[DbConfigurationType(typeof(MySqlConfiguration))]
     public class MyDBContext : DbContext
     {
         public MyDBContext() : base()

@@ -46,6 +46,8 @@ namespace zk4500.Forms
         {
             labelLoginCaption.Text = $"User Login";
             goBackToolStripMenuItemLogin.Visible = false;
+            labelPassword.Visible = false;
+            maskedTextBoxPassword.Visible = false;
             exitToolStripMenuItem.Alignment = ToolStripItemAlignment.Right;
             Controls.Add(ZkFprint);
             InitialAxZkfp();
@@ -193,6 +195,22 @@ namespace zk4500.Forms
                     {
                         ShowHintInfo("Please wait while we validate your credentials ..");
 
+                        await browserManager.Initialize();
+
+                        //try
+                        //{
+                        //    if (!await browserManager.CreateNewPage() == true)
+                        //    {
+                        //        MessageBox.Show("Error: Browser Is Null: [Login]");
+                        //        return;
+                        //    }
+                        //}
+                        //catch (Exception ex)
+                        //{
+                        //    MessageBox.Show($"Error: {ex.Message}");
+                        //    return;
+                        //};
+
                         if (AppExtensions.ManageBrowserUsingBrowserManagerClass == 1)
                         {
                             switch (await browserManager.LoginUser(userToVerify))
@@ -258,22 +276,6 @@ namespace zk4500.Forms
         {
             try
             {
-                await browserManager.Initialize();
-
-                try
-                {
-                    if (!await browserManager.CreateNewPage() == true)
-                    {
-                        MessageBox.Show("Error: Browser Is Null: [Login]");
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"Error: {ex.Message}");
-                    throw;
-                };
-                
-                
                 StringBuilder stringBuilder = new StringBuilder();
                 string username = textBoxUsername.Text;
                 string usernamePattern = @"^(?!_)(?!.*\d)[A-Za-z0-9!@#$%^&*()-+=<>?/\[\]{}|~.`]+(?<!\s).{3,}$";
@@ -332,16 +334,6 @@ namespace zk4500.Forms
 
                 }
 
-                if (!Regex.IsMatch(maskedTextBoxPassword.Text, passwordPattern))
-                {
-                    //MessageBox.Show($"Password must meet the following: " +
-                    //    $"\n.At least 8 characters " +
-                    //    $"\n.One English alphabetical letter " +
-                    //    $"\n.One number \n.One Special character " +
-                    //    $"\n.Must not contain whitespaces", "Invalid Input", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    //return;
-                }
-
                 string hashedPassword = password.HashPassword();
 
                 FetchUserRequest fetchUserRequest = new FetchUserRequest
@@ -354,6 +346,7 @@ namespace zk4500.Forms
                 if (!response.Successful == true)
                 {
                     MessageBox.Show($"Invalid username and or passowrd. ");
+                    return;
                 }
                 else
                 {
